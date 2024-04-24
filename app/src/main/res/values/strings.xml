@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Diplom Compose</string>
+    <string name="title_timetable">Список занятий на сегодня</string>
+
+</resources>

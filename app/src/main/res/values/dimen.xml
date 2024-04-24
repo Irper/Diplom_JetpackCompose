@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="icon_size">64dp</dimen>
+    <dimen name="iconArrow_size">32dp</dimen>
+    <dimen name="icon_strokeWidth">1.5</dimen>
+    <dimen name="password_layout_Height">400dp</dimen>
+    <dimen name="password_layout_Wight">700dp</dimen>
+</resources>
