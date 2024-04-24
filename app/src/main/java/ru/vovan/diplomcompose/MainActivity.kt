@@ -30,7 +30,7 @@ fun MyApp(){
     Timetable(modifier = Modifier)
 }
 
-@Preview(showBackground = true, heightDp = 260)
+@Preview(showBackground = true)
 @Composable
 fun MyAppPreview() {
     DiplomComposeTheme {

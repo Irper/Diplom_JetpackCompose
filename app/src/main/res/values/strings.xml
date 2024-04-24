@@ -2,4 +2,6 @@
     <string name="app_name">Diplom Compose</string>
     <string name="title_timetable">Список занятий на сегодня</string>
 
+    <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
+
 </resources>
