@@ -1,4 +1,4 @@
-package ru.vovan.diplomcompose
+package ru.vovan.diplomcompose.startpage
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -28,15 +29,20 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import ru.vovan.diplomcompose.Lesson
+import ru.vovan.diplomcompose.R
+import ru.vovan.diplomcompose.lessons
 import ru.vovan.diplomcompose.ui.theme.DiplomComposeTheme
 
 @Composable
-fun Timetable (modifier: Modifier = Modifier){
+fun Timetable (modifier: Modifier){
     val lesson_ = lessons
     Surface(
-        modifier = modifier.widthIn(max = 500.dp),
+        modifier = modifier
+            .widthIn(max = 500.dp)
+            .fillMaxHeight()
+            .padding(16.dp),
         shape = RoundedCornerShape(16.dp),
-        shadowElevation = 4.dp,
     ) {
         Column(
             modifier = Modifier.fillMaxWidth(),
@@ -58,8 +64,8 @@ fun Timetable_lessons(lessons : List<Lesson>){
     Column(
         modifier = Modifier
             .verticalScroll(rememberScrollState())
-            .padding(start = 4.dp, end = 4.dp),
-        verticalArrangement = Arrangement.spacedBy(4.dp)
+            .padding(start = 8.dp, end = 8.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Spacer(Modifier.height(4.dp))
         for (lesson in lessons) {
@@ -73,7 +79,7 @@ fun Timetable_lessons(lessons : List<Lesson>){
 fun Timetable_lesson(lesson: Lesson){
     Surface(
         modifier = Modifier.fillMaxWidth(),
-        shadowElevation = 2.dp,
+        shadowElevation = 1.dp,
         shape = RoundedCornerShape(16.dp),
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
     ) {
@@ -152,6 +158,6 @@ fun DescriptionOfLesson(lesson: Lesson) {
 @Composable
 fun TimetablePreview() {
     DiplomComposeTheme {
-        Timetable()
+        Timetable(modifier = Modifier)
     }
 }

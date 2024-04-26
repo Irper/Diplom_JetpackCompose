@@ -1,5 +1,6 @@
 package ru.vovan.diplomcompose
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.material3.Icon
@@ -14,8 +15,11 @@ import androidx.compose.ui.unit.dp
 import ru.vovan.diplomcompose.ui.theme.DiplomComposeTheme
 
 @Composable
-fun Menu() {
-    Row {
+fun Menu(modifier: Modifier) {
+    Row (
+        horizontalArrangement = Arrangement.spacedBy(30.dp),
+        modifier = modifier
+    ) {
         MenuIcon(painter = painterResource(id = R.drawable.icon_timetable), tint = Color.Green)
         MenuIcon(painter = painterResource(id = R.drawable.icon_map), tint = Color.Black)
         MenuIcon(painter = painterResource(id = R.drawable.icon_stuf), tint = Color.Black)
@@ -29,7 +33,7 @@ fun MenuIcon(painter : Painter, tint : Color){
         Icon(
             painter = painter,
             contentDescription = null,
-            modifier = Modifier.sizeIn(48.dp),
+            modifier = Modifier.sizeIn(120.dp),
             tint = tint
         )
     }
@@ -39,6 +43,6 @@ fun MenuIcon(painter : Painter, tint : Color){
 @Composable
 fun MenuPreview() {
     DiplomComposeTheme {
-        Menu()
+        Menu(modifier = Modifier)
     }
 }
