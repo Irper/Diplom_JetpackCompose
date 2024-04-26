@@ -31,15 +31,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.vovan.diplomcompose.Lesson
 import ru.vovan.diplomcompose.R
-import ru.vovan.diplomcompose.lessons
+import ru.vovan.diplomcompose.audience
 import ru.vovan.diplomcompose.ui.theme.DiplomComposeTheme
 
 @Composable
 fun Timetable (modifier: Modifier){
-    val lesson_ = lessons
+    val lesson_ = audience.lessons
     Surface(
         modifier = modifier
-            .widthIn(max = 500.dp)
+            .widthIn(max = 600.dp)
             .fillMaxHeight()
             .padding(16.dp),
         shape = RoundedCornerShape(16.dp),

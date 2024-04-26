@@ -15,6 +15,8 @@ var lessons = listOf<Lesson>(
     Lesson(4, "Управление проектами в сфере информационных технологий", listOf("БО941САП", "БО941ПРИ", "БО941ПИА", "БО941БИО", "БО941ГИО" ), "Лекция", "Белозерова С.И." ),
     Lesson(5, "Управление проектами в сфере информационных технологий", listOf("БО941САП", "БО941ПРИ", "БО941ПИА", "БО941БИО", "БО941ГИО" ), "Лекция", "Белозерова С.И." )
 )
+var audience = Audience(252, lessons)
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
