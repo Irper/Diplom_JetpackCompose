@@ -27,7 +27,8 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MyApp(){
-    Timetable(modifier = Modifier)
+    Announcement(modifier = Modifier)
+    //Timetable(modifier = Modifier)
 }
 
 @Preview(showBackground = true)
