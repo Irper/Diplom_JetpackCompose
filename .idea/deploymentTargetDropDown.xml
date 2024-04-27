@@ -5,10 +5,16 @@
       <entry key="AnnouncementPreview">
         <State />
       </entry>
+      <entry key="MapPagePreview">
+        <State />
+      </entry>
+      <entry key="SettingPagePreview">
+        <State />
+      </entry>
       <entry key="StartPagePreview">
         <State />
       </entry>
-      <entry key="TimetablePreview">
+      <entry key="StuffPagePreview">
         <State />
       </entry>
       <entry key="app">

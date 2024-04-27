@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.vovan.diplomcompose.Menu
+import ru.vovan.diplomcompose.NumberOfAudience
 import ru.vovan.diplomcompose.ui.theme.DiplomComposeTheme
 
 @Composable
@@ -21,18 +22,16 @@ fun StartPage()
         modifier = Modifier.fillMaxWidth()
     ){
         Timetable(modifier = Modifier)
-        Column( verticalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .padding(end = 60.dp)
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier
+                .fillMaxHeight()
+                .padding(end = 60.dp)
         ) {
-            NumberOfAudience(modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .padding(top = 20.dp))
-            Announcement(modifier = Modifier.align(Alignment.CenterHorizontally))
-            Menu(modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .padding(bottom = 40.dp))
+            NumberOfAudience(modifier = Modifier.padding(top = 10.dp))
+            Announcement(modifier = Modifier)
+            Menu(modifier = Modifier.padding(bottom = 40.dp))
         }
     }
 }
