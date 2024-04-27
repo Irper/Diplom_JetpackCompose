@@ -18,7 +18,8 @@ import ru.vovan.diplomcompose.ui.theme.DiplomComposeTheme
 @Composable
 fun StartPage()
 {
-    Row (horizontalArrangement = Arrangement.SpaceBetween,
+    Row (
+        horizontalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier.fillMaxWidth()
     ){
         Timetable(modifier = Modifier)
