@@ -1,4 +1,4 @@
-package ru.vovan.diplomcompose.startpage
+package ru.vovan.diplomcompose.startscreen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,12 +11,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import ru.vovan.diplomcompose.Menu
-import ru.vovan.diplomcompose.NumberOfAudience
+import ru.vovan.diplomcompose.component.NumberOfAudience
 import ru.vovan.diplomcompose.ui.theme.DiplomComposeTheme
 
 @Composable
-fun StartPage()
+fun StartScreen()
 {
     Row (
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -25,22 +24,20 @@ fun StartPage()
         Timetable(modifier = Modifier)
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier
                 .fillMaxHeight()
                 .padding(end = 60.dp)
         ) {
             NumberOfAudience(modifier = Modifier.padding(top = 10.dp))
             Announcement(modifier = Modifier)
-            Menu(modifier = Modifier.padding(bottom = 40.dp))
         }
     }
 }
 
 @Preview(showBackground = true, widthDp = 1600)
 @Composable
-fun StartPagePreview() {
+fun StartScreenPreview() {
     DiplomComposeTheme {
-        StartPage()
+        StartScreen()
     }
 }

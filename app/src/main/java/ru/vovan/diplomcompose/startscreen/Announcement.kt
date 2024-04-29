@@ -1,4 +1,4 @@
-package ru.vovan.diplomcompose.startpage
+package ru.vovan.diplomcompose.startscreen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -17,15 +17,20 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import ru.vovan.diplomcompose.Announcement
 import ru.vovan.diplomcompose.R
+import ru.vovan.diplomcompose.audience
 import ru.vovan.diplomcompose.ui.theme.DiplomComposeTheme
 
 @Composable
 fun Announcement(modifier: Modifier){
+    // Сделать что то с этим
+    val announcement_ = audience.announcement.get(0)
+
     Column (modifier = modifier) {
         AnnouncementHead(modifier = Modifier.align(Alignment.CenterHorizontally))
-        AnnouncementBody()
-        AnnouncementBottom(modifier = Modifier.align(Alignment.End))
+        AnnouncementBody(announcement_)
+        AnnouncementBottom(modifier = Modifier.align(Alignment.End), announcement_)
     }
 }
 
@@ -40,7 +45,7 @@ fun AnnouncementHead(modifier: Modifier){
 }
 
 @Composable
-fun AnnouncementBody(){
+fun AnnouncementBody(announcement : Announcement){
     Row(
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,
@@ -54,7 +59,7 @@ fun AnnouncementBody(){
                 .size(30.dp, 40.dp)
         )
         Text(
-            text = stringResource(id = R.string.lorem_ipsum),
+            text = announcement.text,
             textAlign = TextAlign.Center,
             fontSize = 24.sp,
             modifier = Modifier.weight(5f)
@@ -69,9 +74,9 @@ fun AnnouncementBody(){
     }
 }
 @Composable
-fun AnnouncementBottom(modifier: Modifier){
+fun AnnouncementBottom(modifier: Modifier, announcement : Announcement){
     Text(
-        text = "09.09.2024",
+        text = announcement.date,
         textAlign = TextAlign.End,
         modifier = modifier.padding(top = 16.dp, end = 50.dp)
     )

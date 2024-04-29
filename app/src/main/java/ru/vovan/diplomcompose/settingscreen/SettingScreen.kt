@@ -1,4 +1,4 @@
-package ru.vovan.diplomcompose.settingpage
+package ru.vovan.diplomcompose.settingscreen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,18 +12,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import ru.vovan.diplomcompose.GradientButton
-import ru.vovan.diplomcompose.Menu
-import ru.vovan.diplomcompose.NumberOfAudience
 import ru.vovan.diplomcompose.R
+import ru.vovan.diplomcompose.component.GradientButton
+import ru.vovan.diplomcompose.component.NumberOfAudience
 import ru.vovan.diplomcompose.ui.theme.DiplomComposeTheme
 import ru.vovan.diplomcompose.ui.theme.mainColor_dark
 import ru.vovan.diplomcompose.ui.theme.mainColor_light
 
 @Composable
-fun SettingPage(){
+fun SettingScreen(){
     Column(
-        verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxSize()
     ) {
@@ -43,14 +41,13 @@ fun SettingPage(){
                 gradient = Brush.horizontalGradient(colors = listOf(mainColor_dark, mainColor_light))
             ) { /*TODO*/ }
         }
-        Menu(modifier = Modifier.padding(bottom = 40.dp))
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun SettingPagePreview() {
+fun SettingScreenPreview() {
     DiplomComposeTheme {
-        SettingPage()
+        SettingScreen()
     }
 }

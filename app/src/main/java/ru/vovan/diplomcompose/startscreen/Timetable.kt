@@ -1,4 +1,4 @@
-package ru.vovan.diplomcompose.startpage
+package ru.vovan.diplomcompose.startscreen
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -48,15 +48,20 @@ fun Timetable (modifier: Modifier){
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                stringResource(id = R.string.title_timetable),
-                Modifier.padding(6.dp),
-                fontSize = 24.sp,
-                textAlign = TextAlign.Center
-            )
+            Timetable_Header(modifier = Modifier)
             Timetable_lessons(lesson_)
         }
     }
+}
+
+@Composable
+fun Timetable_Header (modifier: Modifier){
+    Text(
+        stringResource(id = R.string.title_timetable),
+        Modifier.padding(6.dp),
+        fontSize = 32.sp,
+        textAlign = TextAlign.Center
+    )
 }
 
 @Composable
@@ -87,9 +92,9 @@ fun Timetable_lesson(lesson: Lesson){
         ) {
             NumberOfLesson(lesson)
             Image(
-                modifier = Modifier.
-                padding(top = 8.dp, bottom = 8.dp).
-                size(width = 2.dp, height = 100.dp),
+                modifier = Modifier
+                    .padding(top = 8.dp, bottom = 8.dp)
+                    .size(width = 2.dp, height = 100.dp),
                 painter = painterResource(R.drawable.vertical_line),
                 contentDescription = null,
                 contentScale = ContentScale.FillHeight
