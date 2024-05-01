@@ -23,7 +23,7 @@ fun StartScreen()
         horizontalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier.fillMaxWidth()
     ){
-        Timetable(modifier = Modifier.padding(start = 50.dp, top = 30.dp))
+        Timetable(modifier = Modifier.padding(start = 40.dp, top = 30.dp))
         Column(
             verticalArrangement = Arrangement.SpaceBetween,
             horizontalAlignment = Alignment.CenterHorizontally,

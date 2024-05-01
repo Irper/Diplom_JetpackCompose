@@ -2,6 +2,7 @@ package ru.vovan.diplomcompose.startscreen
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -21,6 +22,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.graphics.BlendMode
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.CompositingStrategy
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -40,21 +47,31 @@ fun Timetable (modifier: Modifier){
     Surface(
         modifier = modifier
             .widthIn(max = 550.dp)
-            .fillMaxHeight(),
-        shape = RoundedCornerShape(16.dp),
+            .fillMaxHeight()
+            .graphicsLayer(compositingStrategy = CompositingStrategy.Offscreen)
+            .drawWithContent {
+                drawContent()
+                drawRect(
+                    brush = Brush.verticalGradient(
+                        0.9f to Color.White,
+                        1f to Color.Transparent
+                    ),
+                    blendMode = BlendMode.DstIn
+                )
+            },
     ) {
         Column(
             modifier = Modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Timetable_Header(modifier = Modifier.padding(bottom = 8.dp))
-            Timetable_lessons(lesson_)
+            TimetableHeader(modifier = Modifier.padding(bottom = 8.dp))
+            TimetableLessons(lesson_)
         }
     }
 }
 
 @Composable
-fun Timetable_Header (modifier: Modifier){
+fun TimetableHeader (modifier: Modifier){
     Text(
         stringResource(id = R.string.title_timetable),
         modifier = modifier,
@@ -64,7 +81,7 @@ fun Timetable_Header (modifier: Modifier){
 }
 
 @Composable
-fun Timetable_lessons(lessons : List<Lesson>){
+fun TimetableLessons(lessons : List<Lesson>){
     Column(
         modifier = Modifier
             .verticalScroll(rememberScrollState()),
@@ -72,24 +89,24 @@ fun Timetable_lessons(lessons : List<Lesson>){
     ) {
         Spacer(Modifier.height(4.dp))
         for (lesson in lessons) {
-            Timetable_lesson(lesson)
+            TimetableLesson(lesson)
         }
         Spacer(Modifier.height(32.dp))
     }
 }
 
 @Composable
-fun Timetable_lesson(lesson: Lesson){
+fun TimetableLesson(lesson: Lesson){
     Surface(
+        color = Color.Transparent,
         modifier = Modifier.fillMaxWidth(),
-        shadowElevation = 1.dp,
         shape = RoundedCornerShape(16.dp),
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
     ) {
         Row(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize().background(color = Color.Transparent)
         ) {
             NumberOfLesson(lesson)
             DividingLine(modifier = Modifier)
