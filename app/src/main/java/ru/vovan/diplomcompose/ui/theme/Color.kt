@@ -12,3 +12,5 @@ val Pink40 = Color(0xFF7D5260)
 
 val mainColor_light = Color(0xFF60A82A)
 val mainColor_dark = Color(0xFF0E8047)
+val text_blue = Color(0xFF159DFF)
+val background_timetable = Color(0xFFEFEFEF)

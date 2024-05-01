@@ -1,8 +1,11 @@
 package ru.vovan.diplomcompose.mapscreen
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -17,7 +20,7 @@ import ru.vovan.diplomcompose.ui.theme.DiplomComposeTheme
 @Composable
 fun MapScreen(){
     Column(
-        //verticalArrangement = Arrangement.spacedBy(200.dp, Alignment.Top),
+        verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxSize()
         ) {
@@ -26,7 +29,8 @@ fun MapScreen(){
             painter = painterResource(id = R.drawable.stub_map_3d),
             contentDescription = "map",
             modifier = Modifier
-            )
+        )
+        Spacer(Modifier.height(16.dp))
     }
 }
 

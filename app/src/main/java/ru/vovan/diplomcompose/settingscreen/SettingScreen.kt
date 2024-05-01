@@ -2,7 +2,10 @@ package ru.vovan.diplomcompose.settingscreen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -22,13 +25,15 @@ import ru.vovan.diplomcompose.ui.theme.mainColor_light
 @Composable
 fun SettingScreen(){
     Column(
+        verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxSize()
     ) {
         NumberOfAudience(modifier = Modifier.padding(top = 10.dp))
         Column(
             verticalArrangement = Arrangement.spacedBy(30.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.fillMaxWidth()
         ){
             GradientButton(
                 text = stringResource(id = R.string.button_assign_audience),
@@ -41,6 +46,7 @@ fun SettingScreen(){
                 gradient = Brush.horizontalGradient(colors = listOf(mainColor_dark, mainColor_light))
             ) { /*TODO*/ }
         }
+        Spacer(Modifier.height(16.dp))
     }
 }
 

@@ -7,10 +7,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -21,7 +21,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -33,22 +32,22 @@ import ru.vovan.diplomcompose.Lesson
 import ru.vovan.diplomcompose.R
 import ru.vovan.diplomcompose.audience
 import ru.vovan.diplomcompose.ui.theme.DiplomComposeTheme
+import ru.vovan.diplomcompose.ui.theme.text_blue
 
 @Composable
 fun Timetable (modifier: Modifier){
     val lesson_ = audience.lessons
     Surface(
         modifier = modifier
-            .widthIn(max = 600.dp)
-            .fillMaxHeight()
-            .padding(16.dp),
+            .widthIn(max = 550.dp)
+            .fillMaxHeight(),
         shape = RoundedCornerShape(16.dp),
     ) {
         Column(
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Timetable_Header(modifier = Modifier)
+            Timetable_Header(modifier = Modifier.padding(bottom = 8.dp))
             Timetable_lessons(lesson_)
         }
     }
@@ -58,7 +57,7 @@ fun Timetable (modifier: Modifier){
 fun Timetable_Header (modifier: Modifier){
     Text(
         stringResource(id = R.string.title_timetable),
-        Modifier.padding(6.dp),
+        modifier = modifier,
         fontSize = 32.sp,
         textAlign = TextAlign.Center
     )
@@ -68,15 +67,14 @@ fun Timetable_Header (modifier: Modifier){
 fun Timetable_lessons(lessons : List<Lesson>){
     Column(
         modifier = Modifier
-            .verticalScroll(rememberScrollState())
-            .padding(start = 8.dp, end = 8.dp),
+            .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Spacer(Modifier.height(4.dp))
         for (lesson in lessons) {
             Timetable_lesson(lesson)
         }
-        Spacer(Modifier.height(8.dp))
+        Spacer(Modifier.height(32.dp))
     }
 }
 
@@ -88,24 +86,13 @@ fun Timetable_lesson(lesson: Lesson){
         shape = RoundedCornerShape(16.dp),
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
     ) {
-        Row(verticalAlignment = Alignment.CenterVertically
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxSize()
         ) {
             NumberOfLesson(lesson)
-            Image(
-                modifier = Modifier
-                    .padding(top = 8.dp, bottom = 8.dp)
-                    .size(width = 2.dp, height = 100.dp),
-                painter = painterResource(R.drawable.vertical_line),
-                contentDescription = null,
-                contentScale = ContentScale.FillHeight
-            )
-            /*Text(
-                text = "|",
-                fontSize = 70.sp,
-                fontWeight = FontWeight(10),
-                modifier = Modifier,
-                textAlign = TextAlign.Center
-            )*/
+            DividingLine(modifier = Modifier)
             DescriptionOfLesson(lesson)
         }
     }
@@ -116,7 +103,7 @@ fun NumberOfLesson(lesson: Lesson) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
-            .padding(start = 8.dp, top = 4.dp, bottom = 4.dp, end = 8.dp)
+            .padding(start = 8.dp, top = 4.dp, bottom = 4.dp)
     ) {
         Text(
             text = lesson.number.toString(),
@@ -135,25 +122,38 @@ fun NumberOfLesson(lesson: Lesson) {
 }
 
 @Composable
+fun DividingLine (modifier: Modifier){
+    Image(
+        modifier = modifier
+            .padding(top = 8.dp, bottom = 8.dp),
+        painter = painterResource(R.drawable.vertical_line),
+        contentDescription = null,
+    )
+}
+
+@Composable
 fun DescriptionOfLesson(lesson: Lesson) {
     Column(
-        modifier = Modifier.padding(start = 8.dp, top = 4.dp, bottom = 4.dp, end = 4.dp)
+        modifier = Modifier.padding(top = 4.dp, bottom = 4.dp, end = 4.dp)
     ) {
         Text(
             text = lesson.name,
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(bottom = 4.dp)
+            modifier = Modifier.padding(bottom = 2.dp)
         )
         Text(
-            text = "Группы " + lesson.group.toString()
+            modifier = Modifier.padding(bottom = 2.dp),
+            fontWeight = FontWeight(500),
+            color = text_blue,
+            text = if (lesson.group.size == 1)
+                stringResource(id = R.string.text_group_timetable) + " " + lesson.group.toString()
+            else
+                stringResource(id = R.string.text_groups_timetable) + " " + lesson.group.toString()
         )
         Text(
-            text = lesson.subject,
-            fontSize = 14.sp
-        )
-        Text(
-            text = lesson.lecturer,
+            lineHeight = 17.sp,
+            text = lesson.subject + "\n" + lesson.lecturer,
             fontSize = 14.sp
         )
     }

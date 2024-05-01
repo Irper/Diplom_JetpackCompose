@@ -1,7 +1,10 @@
 package ru.vovan.diplomcompose.stuffscreen
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,7 +21,8 @@ import ru.vovan.diplomcompose.ui.theme.DiplomComposeTheme
 @Composable
 fun StuffScreen(){
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.SpaceBetween
     ) {
         NumberOfAudience(modifier = Modifier
             .padding(top = 10.dp)
@@ -29,6 +33,7 @@ fun StuffScreen(){
             lineHeight = 30.sp,
             modifier = Modifier.padding(start = 20.dp, end = 20.dp)
         )
+        Spacer(Modifier.height(16.dp))
     }
 }
 
