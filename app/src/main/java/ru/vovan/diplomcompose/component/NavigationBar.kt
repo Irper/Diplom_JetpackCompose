@@ -1,5 +1,6 @@
 package ru.vovan.diplomcompose.component
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -18,7 +19,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -50,8 +53,8 @@ fun NavigationBar(){
             NavContainer(navController = navController, padding = it)
         }
     }
-
 }
+
 val items = listOf(
     Screens.Start,
     Screens.Map,
@@ -68,9 +71,24 @@ fun NavBottomBar(navController: NavHostController, modifier: Modifier = Modifier
             .padding(top = 10.dp)
     ) {
         Row {
-            //Image(painter = painterResource(), contentDescription = null)
-            BottomNav(navController)
-            //Image(painter = painterResource(), contentDescription = null)
+            Image(
+                painter = painterResource(R.drawable.train_ex),
+                contentDescription = null,
+                contentScale = ContentScale.Fit,
+                modifier = Modifier
+                    .weight(3f)
+                    .align(Alignment.CenterVertically)
+                    .scale(scaleX = -1f, scaleY = 1f)
+            )
+            BottomNav(navController, modifier = Modifier.padding(start = 10.dp, end = 10.dp))
+            Image(
+                painter = painterResource(R.drawable.train_ex),
+                contentDescription = null,
+                contentScale = ContentScale.Fit,
+                modifier = Modifier
+                    .weight(3f)
+                    .align(Alignment.CenterVertically)
+            )
         }
     }
 }
@@ -79,7 +97,7 @@ fun NavBottomBar(navController: NavHostController, modifier: Modifier = Modifier
 fun BottomNav (navController: NavHostController, modifier: Modifier = Modifier){
     BottomNavigation(
         backgroundColor = MaterialTheme.colorScheme.background,
-        modifier = Modifier.widthIn(max = 500.dp),
+        modifier = modifier.widthIn(max = 500.dp),
         elevation = 0.dp
     ) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()

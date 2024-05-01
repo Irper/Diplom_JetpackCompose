@@ -1,14 +1,19 @@
 package ru.vovan.diplomcompose.startscreen
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -24,12 +29,15 @@ import ru.vovan.diplomcompose.ui.theme.DiplomComposeTheme
 
 @Composable
 fun Announcement(modifier: Modifier){
-    // Сделать что то с этим
-    val announcement_ = audience.announcement.get(0)
+    var iter by rememberSaveable { mutableStateOf(0) }
+    val announcement_ = audience.announcement.get(
+        if (iter >= 0) iter % audience.announcement.count()
+        else  (iter + (audience.announcement.count() * -iter)) % audience.announcement.count()
+    )
 
     Column (modifier = modifier) {
         AnnouncementHead(modifier = Modifier.align(Alignment.CenterHorizontally))
-        AnnouncementBody(announcement_)
+        AnnouncementBody(announcement_, {iter++}, {iter--})
         AnnouncementBottom(modifier = Modifier.align(Alignment.End), announcement_)
     }
 }
@@ -45,32 +53,40 @@ fun AnnouncementHead(modifier: Modifier){
 }
 
 @Composable
-fun AnnouncementBody(announcement : Announcement){
+fun AnnouncementBody(announcement : Announcement, onIncrement: () -> Unit, onDecrement: () -> Unit) {
     Row(
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.widthIn(max = 500.dp)
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.arrow_left),
-            contentDescription = "Arrow_left",
-            modifier = Modifier
-                .padding(end = 20.dp)
-                .size(30.dp, 40.dp)
-        )
+        IconButton(
+            onClick = onDecrement,
+            modifier = Modifier.padding(end = 15.dp)
+            ) {
+            Icon(
+                painter = painterResource(id = R.drawable.arrow_left),
+                contentDescription = "Arrow_left",
+                modifier = Modifier
+                    .fillMaxSize()
+            )
+        }
         Text(
             text = announcement.text,
             textAlign = TextAlign.Center,
             fontSize = 24.sp,
             modifier = Modifier.weight(5f)
         )
-        Image(
-            painter = painterResource(id = R.drawable.arrow_right),
-            contentDescription = "Arrow_right",
-            modifier = Modifier
-                .padding(start = 20.dp)
-                .size(30.dp, 40.dp)
-        )
+        IconButton(
+            onClick = onIncrement ,
+            modifier = Modifier.padding(start = 15.dp)
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.arrow_right),
+                contentDescription = "Arrow_right",
+                modifier = Modifier
+                    .fillMaxSize()
+            )
+        }
     }
 }
 @Composable
@@ -78,7 +94,7 @@ fun AnnouncementBottom(modifier: Modifier, announcement : Announcement){
     Text(
         text = announcement.date,
         textAlign = TextAlign.End,
-        modifier = modifier.padding(top = 16.dp, end = 50.dp)
+        modifier = modifier.padding(top = 16.dp, end = 64.dp)
     )
 }
 

@@ -53,7 +53,7 @@ fun Timetable (modifier: Modifier){
                 drawContent()
                 drawRect(
                     brush = Brush.verticalGradient(
-                        0.9f to Color.White,
+                        0.91f to Color.White,
                         1f to Color.Transparent
                     ),
                     blendMode = BlendMode.DstIn
