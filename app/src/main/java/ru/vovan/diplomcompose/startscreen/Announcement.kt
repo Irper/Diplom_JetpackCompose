@@ -32,7 +32,7 @@ fun Announcement(modifier: Modifier){
     var iter by rememberSaveable { mutableStateOf(0) }
     val announcement_ = audience.announcement.get(
         if (iter >= 0) iter % audience.announcement.count()
-        else  (iter + (audience.announcement.count() * -iter)) % audience.announcement.count()
+        else  (iter + (audience.announcement.count() * (-iter))) % audience.announcement.count()
     )
 
     Column (modifier = modifier) {
@@ -89,6 +89,7 @@ fun AnnouncementBody(announcement : Announcement, onIncrement: () -> Unit, onDec
         }
     }
 }
+
 @Composable
 fun AnnouncementBottom(modifier: Modifier, announcement : Announcement){
     Text(
