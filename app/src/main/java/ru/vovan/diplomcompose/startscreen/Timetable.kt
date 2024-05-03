@@ -104,12 +104,11 @@ fun TimetableLesson(lesson: Lesson){
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
     ) {
         Row(
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxSize().background(color = Color.Transparent)
         ) {
             NumberOfLesson(lesson)
-            DividingLine(modifier = Modifier)
             DescriptionOfLesson(lesson)
         }
     }
