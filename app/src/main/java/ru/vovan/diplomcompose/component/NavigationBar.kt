@@ -1,11 +1,14 @@
 package ru.vovan.diplomcompose.component
 
-
-import androidx.compose.foundation.background
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material3.Icon
@@ -14,8 +17,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -32,6 +38,7 @@ import ru.vovan.diplomcompose.settingscreen.SettingScreen
 import ru.vovan.diplomcompose.startscreen.StartScreen
 import ru.vovan.diplomcompose.stuffscreen.StuffScreen
 import ru.vovan.diplomcompose.ui.theme.DiplomComposeTheme
+import ru.vovan.diplomcompose.ui.theme.mainColor_light
 
 @Composable
 fun NavigationBar(){
@@ -46,8 +53,8 @@ fun NavigationBar(){
             NavContainer(navController = navController, padding = it)
         }
     }
-
 }
+
 val items = listOf(
     Screens.Start,
     Screens.Map,
@@ -57,7 +64,42 @@ val items = listOf(
 
 @Composable
 fun NavBottomBar(navController: NavHostController, modifier: Modifier = Modifier) {
-    BottomNavigation {
+    Column (
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 10.dp)
+    ) {
+        Row {
+            Image(
+                painter = painterResource(R.drawable.train_ex),
+                contentDescription = null,
+                contentScale = ContentScale.Fit,
+                modifier = Modifier
+                    .weight(3f)
+                    .align(Alignment.CenterVertically)
+                    .scale(scaleX = -1f, scaleY = 1f)
+            )
+            BottomNav(navController, modifier = Modifier.padding(start = 10.dp, end = 10.dp))
+            Image(
+                painter = painterResource(R.drawable.train_ex),
+                contentDescription = null,
+                contentScale = ContentScale.Fit,
+                modifier = Modifier
+                    .weight(3f)
+                    .align(Alignment.CenterVertically)
+            )
+        }
+    }
+}
+
+@Composable
+fun BottomNav (navController: NavHostController, modifier: Modifier = Modifier){
+    BottomNavigation(
+        backgroundColor = MaterialTheme.colorScheme.background,
+        modifier = modifier.widthIn(max = 500.dp),
+        elevation = 0.dp
+    ) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentDestination = navBackStackEntry?.destination
         items.forEach { screen ->
@@ -66,8 +108,8 @@ fun NavBottomBar(navController: NavHostController, modifier: Modifier = Modifier
             } == true
             BottomNavigationItem(
                 modifier = Modifier
-                    .background(MaterialTheme.colorScheme.background)
-                    .size(64.dp),
+                    .size(48.dp)
+                    .padding(top = 8.dp),
                 icon = {
                     Icon(
                         when (screen) {
@@ -77,7 +119,7 @@ fun NavBottomBar(navController: NavHostController, modifier: Modifier = Modifier
                             Screens.Setting -> painterResource(id = R.drawable.icon_setting)
                         },
                         contentDescription = null,
-                        tint = if (selected) Color.Green else Color.Black,
+                        tint = if (selected) mainColor_light else Color.Black
                     )
                 },
                 selected = selected,
@@ -101,14 +143,13 @@ fun NavBottomBar(navController: NavHostController, modifier: Modifier = Modifier
     }
 }
 
-
 @Composable
 fun NavContainer(navController: NavHostController, padding: PaddingValues) {
     NavHost(
         modifier = Modifier.padding(paddingValues = padding),
         navController = navController,
         startDestination = Screens.Start.route
-    )
+        )
     {
         composable(route = Screens.Start.route) {
             StartScreen()
@@ -133,7 +174,7 @@ sealed class Screens(val route: String) {
 }
 
 
-@Preview(showBackground = true)
+@Preview(showBackground = true, widthDp = 1200)
 @Composable
 fun NavigationBarPreview() {
     DiplomComposeTheme {

@@ -2,6 +2,21 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
+      <entry key="AnnouncementPreview">
+        <State />
+      </entry>
+      <entry key="MapScreenPreview">
+        <State />
+      </entry>
+      <entry key="NavigationBarPreview">
+        <State />
+      </entry>
+      <entry key="SettingPagePreview">
+        <State />
+      </entry>
+      <entry key="StuffScreenPreview">
+        <State />
+      </entry>
       <entry key="app">
         <State />
       </entry>
