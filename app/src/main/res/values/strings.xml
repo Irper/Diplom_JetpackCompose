@@ -11,5 +11,7 @@
     <string name="button_enter">Вход</string>
     <string name="button_assign_audience">Назначить аудиторию</string>
     <string name="button_exit">Выход</string>
+    <string name="title_dynamicfeature">Module Title</string>
+    <string name="title_network">Module Title</string>
 
 </resources>

@@ -43,7 +43,7 @@ import ru.vovan.diplomcompose.ui.theme.text_blue
 
 @Composable
 fun Timetable (modifier: Modifier){
-    val lesson_ = audience.lessons
+    val lessons_ = audience.lessons
     Surface(
         modifier = modifier
             .widthIn(max = 550.dp)
@@ -62,10 +62,10 @@ fun Timetable (modifier: Modifier){
     ) {
         Column(
             modifier = Modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             TimetableHeader(modifier = Modifier.padding(bottom = 8.dp))
-            TimetableLessons(lesson_)
+            TimetableLessons(lessons_)
         }
     }
 }

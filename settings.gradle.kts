@@ -15,4 +15,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Diplom Compose"
 include(":app")
- 
+include(":network")
