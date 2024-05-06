@@ -22,9 +22,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.drawWithContent
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -45,7 +43,7 @@ import ru.vovan.diplomcompose.ui.theme.text_blue
 
 @Composable
 fun Timetable (modifier: Modifier){
-    val lesson_ = audience.lessons
+    val lessons_ = audience.lessons
     Surface(
         modifier = modifier
             .widthIn(max = 550.dp)
@@ -64,10 +62,10 @@ fun Timetable (modifier: Modifier){
     ) {
         Column(
             modifier = Modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             TimetableHeader(modifier = Modifier.padding(bottom = 8.dp))
-            TimetableLessons(lesson_)
+            TimetableLessons(lessons_)
         }
     }
 }
@@ -106,12 +104,11 @@ fun TimetableLesson(lesson: Lesson){
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
     ) {
         Row(
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxSize().background(color = Color.Transparent)
         ) {
             NumberOfLesson(lesson)
-       //     DividingLine(modifier = Modifier)
             DescriptionOfLesson(lesson)
         }
     }

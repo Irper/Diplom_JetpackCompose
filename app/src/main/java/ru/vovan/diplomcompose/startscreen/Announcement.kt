@@ -1,5 +1,12 @@
 package ru.vovan.diplomcompose.startscreen
 
+import android.annotation.SuppressLint
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -29,15 +36,15 @@ import ru.vovan.diplomcompose.ui.theme.DiplomComposeTheme
 
 @Composable
 fun Announcement(modifier: Modifier){
-    var iter by rememberSaveable { mutableStateOf(0) }
+    var count by rememberSaveable { mutableStateOf(0) }
     val announcement_ = audience.announcement.get(
-        if (iter >= 0) iter % audience.announcement.count()
-        else  (iter + (audience.announcement.count() * (-iter))) % audience.announcement.count()
+        if (count >= 0) count % audience.announcement.count()
+        else  (count + (audience.announcement.count() * (-count))) % audience.announcement.count()
     )
 
     Column (modifier = modifier) {
         AnnouncementHead(modifier = Modifier.align(Alignment.CenterHorizontally))
-        AnnouncementBody(announcement_, {iter++}, {iter--})
+        AnnouncementBody(announcement_, {count++}, {count--}, count)
         AnnouncementBottom(modifier = Modifier.align(Alignment.End), announcement_)
     }
 }
@@ -52,8 +59,15 @@ fun AnnouncementHead(modifier: Modifier){
     )
 }
 
+
+@SuppressLint("UnusedContentLambdaTargetStateParameter")
 @Composable
-fun AnnouncementBody(announcement : Announcement, onIncrement: () -> Unit, onDecrement: () -> Unit) {
+fun AnnouncementBody(
+    announcement : Announcement,
+    onIncrement: () -> Unit,
+    onDecrement: () -> Unit,
+    count : Int
+) {
     Row(
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,
@@ -70,14 +84,30 @@ fun AnnouncementBody(announcement : Announcement, onIncrement: () -> Unit, onDec
                     .fillMaxSize()
             )
         }
-        Text(
-            text = announcement.text,
-            textAlign = TextAlign.Center,
-            fontSize = 24.sp,
-            modifier = Modifier.weight(5f)
-        )
+
+        AnimatedContent(
+            modifier = Modifier.weight(5f),
+            targetState = count,
+            transitionSpec = {
+                if (targetState > initialState) {
+                    slideInHorizontally { width -> width } + fadeIn() togetherWith
+                            slideOutHorizontally { width -> -width } + fadeOut()
+                } else {
+                    slideInHorizontally { width -> -width } + fadeIn() togetherWith
+                            slideOutHorizontally { width -> width } + fadeOut()
+                }
+            },
+            label = "swipe effect"
+        ) {
+            Text(
+                text = announcement.text,
+                textAlign = TextAlign.Center,
+                fontSize = 24.sp
+            )
+        }
+
         IconButton(
-            onClick = onIncrement ,
+            onClick = onIncrement,
             modifier = Modifier.padding(start = 15.dp)
         ) {
             Icon(
@@ -89,6 +119,7 @@ fun AnnouncementBody(announcement : Announcement, onIncrement: () -> Unit, onDec
         }
     }
 }
+
 
 @Composable
 fun AnnouncementBottom(modifier: Modifier, announcement : Announcement){
