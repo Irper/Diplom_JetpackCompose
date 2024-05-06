@@ -1,6 +1,7 @@
-package com.example.network
+package ru.vovan.diplomcompose.network.network
 
 import retrofit2.http.GET
+import ru.vovan.diplomcompose.network.model.Post
 
 /*
 * API для взаимодействия. Поставляется одиночке для работы.

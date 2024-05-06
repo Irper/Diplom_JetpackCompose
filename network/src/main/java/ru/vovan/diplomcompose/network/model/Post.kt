@@ -1,4 +1,4 @@
-package com.example.network
+package ru.vovan.diplomcompose.network.model
 
 /*
 *

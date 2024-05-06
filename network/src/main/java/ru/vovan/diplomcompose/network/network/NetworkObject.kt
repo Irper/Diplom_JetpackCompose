@@ -1,4 +1,4 @@
-package com.example.network
+package ru.vovan.diplomcompose.network.network
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

@@ -1,8 +1,8 @@
 package ru.vovan.diplomcompose.di
 
-import com.example.network.NetworkObject
-import com.example.network.PostRepository
-import com.example.network.PostRepositoryImpl
+import ru.vovan.diplomcompose.network.network.NetworkObject
+import ru.vovan.diplomcompose.network.repository.PostRepository
+import ru.vovan.diplomcompose.network.repository.PostRepositoryImpl
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import ru.vovan.diplomcompose.viewmodel.PostViewModel

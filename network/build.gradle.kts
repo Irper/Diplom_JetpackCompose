@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.network"
+    namespace = "ru.vovan.diplomcompose.network"
     compileSdk = 34
 
     defaultConfig {
