@@ -10,7 +10,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import ru.vovan.diplomcompose.component.NavigationBar
 import ru.vovan.diplomcompose.ui.theme.DiplomComposeTheme
 
-var lessons = listOf(
+var lessons = arrayListOf(
     Lesson(1, "Механика", listOf("БО941САП"), "Лекция", "Владимир Владимирович Лагойда" ),
     Lesson(2, "Web-программирование", listOf("БО941САП", "БО941ПРИ"), "Лекция", "Кузнецов И.В." ),
     Lesson(3, "Управление проектами в сфере информационных технологий", listOf("БО941САП", "БО941ПРИ", "БО941ПИА", "БО941БИО", "БО941ГИО" ), "Лекция", "Белозерова С.И." ),
@@ -18,7 +18,7 @@ var lessons = listOf(
     Lesson(5, "Управление проектами в сфере информационных технологий", listOf("БО941САП", "БО941ПРИ", "БО941ПИА", "БО941БИО", "БО941ГИО" ), "Лекция", "Белозерова С.И." ),
     Lesson(6, "Управление проектами в сфере информационных технологий", listOf("БО941САП", "БО941ПРИ", "БО941ПИА", "БО941БИО", "БО941ГИО" ), "Лекция", "Белозерова С.И." )
 )
-var announcement = listOf(
+var announcement = arrayListOf(
     Announcement("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.1","19.02.2002"),
     Announcement("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.2","56.34.1223"),
     Announcement("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.3","11.11.1111"),

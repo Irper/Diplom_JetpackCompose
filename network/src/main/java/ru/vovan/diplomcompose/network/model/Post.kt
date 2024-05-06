@@ -1,7 +1,6 @@
 package ru.vovan.diplomcompose.network.model
 
 /*
-*
 * Модель объекта, который будет получаться по сети
 * */
 data class Post(

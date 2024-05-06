@@ -17,8 +17,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -29,23 +30,26 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import org.koin.androidx.compose.koinViewModel
 import ru.vovan.diplomcompose.Announcement
 import ru.vovan.diplomcompose.R
 import ru.vovan.diplomcompose.audience
 import ru.vovan.diplomcompose.ui.theme.DiplomComposeTheme
+import ru.vovan.diplomcompose.viewmodel.PostViewModel
 
 @Composable
-fun Announcement(modifier: Modifier){
-    var count by rememberSaveable { mutableStateOf(0) }
-    val announcement_ = audience.announcement.get(
-        if (count >= 0) count % audience.announcement.count()
-        else  (count + (audience.announcement.count() * (-count))) % audience.announcement.count()
-    )
+fun Announcement(modifier: Modifier = Modifier, postViewModel: PostViewModel = koinViewModel()){
+    val posts by postViewModel.getAllPosts().collectAsState(initial = emptyList())
+    audience.setAnnouncement(posts)
+
+    var currentAnnouncement by rememberSaveable { mutableIntStateOf(0) }
+    val announcement = audience.announcement[if (currentAnnouncement >= 0) currentAnnouncement % audience.announcement.count()
+    else  (currentAnnouncement + (audience.announcement.count() * (-currentAnnouncement))) % audience.announcement.count()]
 
     Column (modifier = modifier) {
         AnnouncementHead(modifier = Modifier.align(Alignment.CenterHorizontally))
-        AnnouncementBody(announcement_, {count++}, {count--}, count)
-        AnnouncementBottom(modifier = Modifier.align(Alignment.End), announcement_)
+        AnnouncementBody(announcement, {currentAnnouncement++}, {currentAnnouncement--}, currentAnnouncement)
+        AnnouncementBottom(modifier = Modifier.align(Alignment.End), announcement)
     }
 }
 
