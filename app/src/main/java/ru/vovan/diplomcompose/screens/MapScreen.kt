@@ -1,4 +1,4 @@
-package ru.vovan.diplomcompose.mapscreen
+package ru.vovan.diplomcompose.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement

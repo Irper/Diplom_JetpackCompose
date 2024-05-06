@@ -1,4 +1,4 @@
-package ru.vovan.diplomcompose.settingscreen
+package ru.vovan.diplomcompose.screens
 
 import android.annotation.SuppressLint
 import android.app.Activity

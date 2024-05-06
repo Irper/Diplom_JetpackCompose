@@ -1,4 +1,4 @@
-package ru.vovan.diplomcompose.startscreen
+package ru.vovan.diplomcompose.component
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedContent

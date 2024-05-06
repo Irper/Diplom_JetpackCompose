@@ -1,4 +1,4 @@
-package ru.vovan.diplomcompose.startscreen
+package ru.vovan.diplomcompose.component
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image

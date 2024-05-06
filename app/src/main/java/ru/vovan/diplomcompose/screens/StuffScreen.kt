@@ -1,4 +1,4 @@
-package ru.vovan.diplomcompose.stuffscreen
+package ru.vovan.diplomcompose.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
