@@ -1,7 +1,11 @@
 package ru.vovan.diplomcompose
 
 import ru.vovan.diplomcompose.network.model.Post
+import java.text.DateFormat
+import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 
 class Audience constructor(
     _number_of_audience: Int,
@@ -15,9 +19,16 @@ class Audience constructor(
     // Список объявлений
     var announcement : ArrayList<Announcement> = _announcement
 
+
     fun setAnnouncement(listPosts : List<Post>){
+        // Текущее время
+        val currentDate: Date = Date()
+        // Форматирование времени как "день.месяц.год"
+        val dateFormat: DateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
+        val dateText: String = dateFormat.format(currentDate)
+
         listPosts.forEach{
-            announcement.add(Announcement(it.title, Calendar.getInstance().time.toString()))
+            announcement.add(Announcement(it.title, dateText))
         }
     }
 }

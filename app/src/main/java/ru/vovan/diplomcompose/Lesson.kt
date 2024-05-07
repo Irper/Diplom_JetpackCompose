@@ -25,7 +25,7 @@ class Lesson constructor(
     init {
         setTime(this.number)
     }
-    fun setTime(number : Int){
+    private fun setTime(number : Int){
         when (number){
             1 -> {
                 this.time_begin = "08:05"
