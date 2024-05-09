@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
 import com.google.accompanist.systemuicontroller.SystemUiController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import ru.vovan.diplomcompose.component.NavigationBar
@@ -45,11 +44,4 @@ fun MyApp(){
     NavigationBar()
 }
 
-@Preview(showBackground = true)
-@Composable
-fun MyAppPreview() {
-    DiplomComposeTheme {
-        NavigationBar()
-    }
-}
 

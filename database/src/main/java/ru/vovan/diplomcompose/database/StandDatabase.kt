@@ -1,0 +1,33 @@
+package ru.vovan.diplomcompose.database
+
+import android.content.Context
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.RoomDatabase
+import kotlinx.coroutines.InternalCoroutinesApi
+import kotlinx.coroutines.internal.synchronized
+import ru.vovan.diplomcompose.database.dao.AnnouncementDao
+import ru.vovan.diplomcompose.database.dao.AudienceDao
+import ru.vovan.diplomcompose.database.entity.Announcement
+import ru.vovan.diplomcompose.database.entity.Audience
+
+@Database(entities = [Audience::class, Announcement::class], version = 1, exportSchema = false)
+abstract class StandDatabase : RoomDatabase() {
+    abstract fun audienceDao(): AudienceDao
+    abstract fun announcementDao(): AnnouncementDao
+    companion object {
+        @Volatile
+        private var Instance: StandDatabase? = null
+        @OptIn(InternalCoroutinesApi::class)
+        fun getDatabase(context: Context): StandDatabase {
+            return Instance ?: synchronized(this){
+                Room.databaseBuilder(context, StandDatabase::class.java, "stand_database")
+                    .fallbackToDestructiveMigration()
+                    .build()
+                    .also { Instance = it }
+            }
+        }
+    }
+
+
+}
