@@ -1,4 +1,3 @@
-/*
 package ru.vovan.diplomcompose.di
 
 import org.koin.android.ext.koin.androidContext
@@ -15,4 +14,4 @@ val databaseModule = module {
         )
     }
     viewModel { EventListViewModel(get()) }
-}*/
+}

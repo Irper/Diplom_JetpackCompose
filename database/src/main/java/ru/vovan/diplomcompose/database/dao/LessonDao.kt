@@ -7,7 +7,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
-import ru.vovan.diplomcompose.database.entity.embedded.Lesson
+import ru.vovan.diplomcompose.database.entity.Lesson
 
 @Dao
 interface LessonDao {
