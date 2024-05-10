@@ -1,4 +1,4 @@
-package ru.vovan.diplomcompose.component
+package ru.vovan.diplomcompose.ui.component
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -35,15 +35,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import ru.vovan.diplomcompose.Lesson
 import ru.vovan.diplomcompose.R
-import ru.vovan.diplomcompose.audience
+import ru.vovan.diplomcompose.database.entity.Lesson
+import ru.vovan.diplomcompose.ui.audienceModel
 import ru.vovan.diplomcompose.ui.theme.DiplomComposeTheme
 import ru.vovan.diplomcompose.ui.theme.text_blue
 
 @Composable
 fun Timetable (modifier: Modifier){
-    val lessons_ = audience.lessons
+    val lessons_ = audienceModel.listLesson
     Surface(
         modifier = modifier
             .widthIn(max = 550.dp)
@@ -122,7 +122,7 @@ fun NumberOfLesson(lesson: Lesson) {
             .padding(start = 8.dp, top = 4.dp, bottom = 4.dp)
     ) {
         Text(
-            text = lesson.number.toString(),
+            text = lesson.numberOfLesson.toString(),
             fontSize = 40.sp,
             fontWeight = FontWeight.Bold
         )
@@ -153,7 +153,7 @@ fun DescriptionOfLesson(lesson: Lesson) {
         modifier = Modifier.padding(top = 4.dp, bottom = 4.dp, end = 4.dp)
     ) {
         Text(
-            text = lesson.name,
+            text = lesson.itemName,
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(bottom = 2.dp)
@@ -162,14 +162,15 @@ fun DescriptionOfLesson(lesson: Lesson) {
             modifier = Modifier.padding(bottom = 2.dp),
             fontWeight = FontWeight(500),
             color = text_blue,
-            text = if (lesson.group.size == 1)
+            text = lesson.group
+            /*text = if (lesson.group.size == 1)
                 stringResource(id = R.string.text_group_timetable) + " " + lesson.group.toString()
             else
-                stringResource(id = R.string.text_groups_timetable) + " " + lesson.group.toString()
+                stringResource(id = R.string.text_groups_timetable) + " " + lesson.group.toString()*/
         )
         Text(
             lineHeight = 17.sp,
-            text = lesson.subject + "\n" + lesson.lecturer,
+            text = lesson.itemType + "\n" + lesson.lecturer,
             fontSize = 14.sp
         )
     }

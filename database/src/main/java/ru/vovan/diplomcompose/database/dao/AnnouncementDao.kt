@@ -9,6 +9,7 @@ import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 import ru.vovan.diplomcompose.database.entity.Announcement
 import ru.vovan.diplomcompose.database.entity.Audience
+import java.util.UUID
 
 @Dao
 interface AnnouncementDao {
@@ -21,5 +22,5 @@ interface AnnouncementDao {
     @Query("SELECT * FROM announcements")
     fun readAll(): Flow<List<Announcement>>
     @Query("SELECT * from announcements WHERE id = :id")
-    fun readById(id : Int) : Announcement
+    fun readById(id : UUID) : Announcement
 }

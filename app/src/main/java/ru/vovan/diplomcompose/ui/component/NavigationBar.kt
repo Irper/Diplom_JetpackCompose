@@ -1,4 +1,4 @@
-package ru.vovan.diplomcompose.component
+package ru.vovan.diplomcompose.ui.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
@@ -33,10 +33,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import ru.vovan.diplomcompose.R
-import ru.vovan.diplomcompose.screens.MapScreen
-import ru.vovan.diplomcompose.screens.SettingScreen
-import ru.vovan.diplomcompose.screens.StartScreen
-import ru.vovan.diplomcompose.screens.StuffScreen
+import ru.vovan.diplomcompose.ui.screens.MapScreen
+import ru.vovan.diplomcompose.ui.screens.SettingScreen
+import ru.vovan.diplomcompose.ui.screens.StartScreen
+import ru.vovan.diplomcompose.ui.screens.StuffScreen
 import ru.vovan.diplomcompose.ui.theme.DiplomComposeTheme
 import ru.vovan.diplomcompose.ui.theme.mainColor_light
 

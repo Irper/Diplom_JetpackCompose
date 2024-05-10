@@ -8,6 +8,5 @@ import androidx.room.PrimaryKey
 data class Audience (
     @PrimaryKey
     val numberOfAudience : String,
-    @ColumnInfo(name = "desc")
     val description : String
 )

@@ -1,4 +1,4 @@
-package ru.vovan.diplomcompose.screens
+package ru.vovan.diplomcompose.ui.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -22,7 +22,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.vovan.diplomcompose.R
-import ru.vovan.diplomcompose.component.NumberOfAudience
+import ru.vovan.diplomcompose.ui.audienceModel
+import ru.vovan.diplomcompose.ui.component.NumberOfAudience
 import ru.vovan.diplomcompose.ui.theme.DiplomComposeTheme
 
 @Composable
@@ -35,7 +36,7 @@ fun StuffScreen(){
             .padding(top = 10.dp)
             .align(Alignment.CenterHorizontally)
         )
-        Text(text = stringResource(id = R.string.lorem_impum_long),
+        Text(text = audienceModel.description,
             fontSize = 30.sp,
             lineHeight = 30.sp,
             modifier = Modifier.padding(start = 20.dp, end = 20.dp)

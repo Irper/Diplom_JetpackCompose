@@ -1,4 +1,4 @@
-package ru.vovan.diplomcompose.component
+package ru.vovan.diplomcompose.ui.component
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedContent
@@ -31,20 +31,20 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.koin.androidx.compose.koinViewModel
-import ru.vovan.diplomcompose.Announcement
 import ru.vovan.diplomcompose.R
-import ru.vovan.diplomcompose.audience
+import ru.vovan.diplomcompose.database.entity.Announcement
+import ru.vovan.diplomcompose.ui.audienceModel
 import ru.vovan.diplomcompose.ui.theme.DiplomComposeTheme
-import ru.vovan.diplomcompose.viewmodel.PostViewModel
+import ru.vovan.diplomcompose.viewmodel.DataViewModel
 
 @Composable
-fun Announcement(modifier: Modifier = Modifier, postViewModel: PostViewModel = koinViewModel()){
+fun Announcement(modifier: Modifier = Modifier, postViewModel: DataViewModel = koinViewModel()){
     val posts by postViewModel.getAllPosts().collectAsState(initial = emptyList())
-    audience.setAnnouncement(posts)
+    audienceModel.setAnnouncement(posts)
 
     var currentAnnouncement by rememberSaveable { mutableIntStateOf(0) }
-    val announcement = audience.announcement[if (currentAnnouncement >= 0) currentAnnouncement % audience.announcement.count()
-    else  (currentAnnouncement + (audience.announcement.count() * (-currentAnnouncement))) % audience.announcement.count()]
+    val announcement = audienceModel.listAnnouncement[if (currentAnnouncement >= 0) currentAnnouncement % audienceModel.listAnnouncement.count()
+    else  (currentAnnouncement + (audienceModel.listAnnouncement.count() * (-currentAnnouncement))) % audienceModel.listAnnouncement.count()]
 
     Column (modifier = modifier) {
         AnnouncementHead(modifier = Modifier.align(Alignment.CenterHorizontally))

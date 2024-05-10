@@ -57,6 +57,9 @@ dependencies {
     // https://mvnrepository.com/artifact/io.insert-koin/koin-androidx-compose
     implementation("io.insert-koin:koin-androidx-compose:3.5.6")
 
+    //добавил из database потому что dataModule выдавал ошибку
+    implementation("androidx.room:room-runtime:2.6.1")
+
 
     implementation("androidx.navigation:navigation-compose:2.7.7")
     implementation("androidx.compose.material:material:1.6.7")

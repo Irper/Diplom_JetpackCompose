@@ -1,4 +1,4 @@
-package ru.vovan.diplomcompose.screens
+package ru.vovan.diplomcompose.ui.screens
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -46,8 +46,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.vovan.diplomcompose.R
-import ru.vovan.diplomcompose.component.GradientButton
-import ru.vovan.diplomcompose.component.NumberOfAudience
+import ru.vovan.diplomcompose.ui.component.GradientButton
+import ru.vovan.diplomcompose.ui.component.NumberOfAudience
 import ru.vovan.diplomcompose.ui.theme.DiplomComposeTheme
 import ru.vovan.diplomcompose.ui.theme.mainColor_dark
 import ru.vovan.diplomcompose.ui.theme.mainColor_light

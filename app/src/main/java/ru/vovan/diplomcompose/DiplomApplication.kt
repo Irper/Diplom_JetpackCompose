@@ -4,7 +4,7 @@ import android.app.Application
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.GlobalContext.startKoin
-import ru.vovan.diplomcompose.di.postModule
+import ru.vovan.diplomcompose.di.dataModule
 
 class DiplomApplication : Application(){
         //  lateinit var container: AppContainer
@@ -16,7 +16,7 @@ class DiplomApplication : Application(){
             startKoin{
                 androidLogger()
                 androidContext(this@DiplomApplication)
-                modules(postModule)
+                modules(dataModule)
             }
         }
 }

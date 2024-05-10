@@ -1,4 +1,4 @@
-package ru.vovan.diplomcompose.screens
+package ru.vovan.diplomcompose.ui.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -14,7 +14,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.vovan.diplomcompose.R
-import ru.vovan.diplomcompose.component.NumberOfAudience
+import ru.vovan.diplomcompose.ui.component.NumberOfAudience
 import ru.vovan.diplomcompose.ui.theme.DiplomComposeTheme
 
 @Composable

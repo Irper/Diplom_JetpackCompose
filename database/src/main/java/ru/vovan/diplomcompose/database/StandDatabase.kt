@@ -12,11 +12,11 @@ import ru.vovan.diplomcompose.database.dao.AnnouncementDao
 import ru.vovan.diplomcompose.database.dao.AudienceDao
 import ru.vovan.diplomcompose.database.entity.Announcement
 import ru.vovan.diplomcompose.database.entity.Audience
+import ru.vovan.diplomcompose.database.entity.Lesson
 
 
-@Database(entities = [Audience::class, Announcement::class], version = 1, exportSchema = false)
+@Database(entities = [Audience::class, Lesson::class, Announcement::class], version = 1, exportSchema = false)
 @TypeConverters( value = [UUIDConverter::class])
-
 abstract class StandDatabase : RoomDatabase() {
     abstract fun audienceDao(): AudienceDao
     abstract fun announcementDao(): AnnouncementDao

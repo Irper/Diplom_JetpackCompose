@@ -1,4 +1,4 @@
-package ru.vovan.diplomcompose.component
+package ru.vovan.diplomcompose.ui.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

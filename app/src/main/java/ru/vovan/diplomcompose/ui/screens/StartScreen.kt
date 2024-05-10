@@ -1,4 +1,4 @@
-package ru.vovan.diplomcompose.screens
+package ru.vovan.diplomcompose.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,9 +13,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import ru.vovan.diplomcompose.component.Announcement
-import ru.vovan.diplomcompose.component.NumberOfAudience
-import ru.vovan.diplomcompose.component.Timetable
+import ru.vovan.diplomcompose.ui.component.Announcement
+import ru.vovan.diplomcompose.ui.component.NumberOfAudience
+import ru.vovan.diplomcompose.ui.component.Timetable
 import ru.vovan.diplomcompose.ui.theme.DiplomComposeTheme
 
 @Composable
