@@ -9,7 +9,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class StandModel(audience: Audience, listLesson: ArrayList<Lesson>, listAnnouncement : ArrayList<Announcement>) {
+class StandModel(audience: Audience, listLesson: ArrayList<Lesson>, listAnnouncement: ArrayList<Announcement>) {
     // Номер аудитории
     var numberOfAudience : String = audience.numberOfAudience
     // Описание кабинета

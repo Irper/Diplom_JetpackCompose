@@ -30,6 +30,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 import ru.vovan.diplomcompose.R
 import ru.vovan.diplomcompose.database.entity.Announcement
@@ -37,10 +39,18 @@ import ru.vovan.diplomcompose.ui.audienceModel
 import ru.vovan.diplomcompose.ui.theme.DiplomComposeTheme
 import ru.vovan.diplomcompose.viewmodel.DataViewModel
 
+@SuppressLint("CoroutineCreationDuringComposition")
 @Composable
-fun Announcement(modifier: Modifier = Modifier, postViewModel: DataViewModel = koinViewModel()){
-    val posts by postViewModel.getAllPosts().collectAsState(initial = emptyList())
+fun Announcement(modifier: Modifier = Modifier, dataViewModel: DataViewModel = koinViewModel()){
+
+    val posts by dataViewModel.getAllPosts().collectAsState(initial = emptyList())
     audienceModel.setAnnouncement(posts)
+
+    /*dataViewModel.viewModelScope.launch {
+        audienceModel.listAnnouncement.forEach {
+            dataViewModel.update(Announcement(text = it.text, date = it.date))
+        }
+    }*/
 
     var currentAnnouncement by rememberSaveable { mutableIntStateOf(0) }
     val announcement = audienceModel.listAnnouncement[if (currentAnnouncement >= 0) currentAnnouncement % audienceModel.listAnnouncement.count()

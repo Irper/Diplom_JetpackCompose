@@ -13,7 +13,7 @@ import java.util.UUID
 
 @Dao
 interface AnnouncementDao {
-    @Insert(onConflict = OnConflictStrategy.ABORT)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(announcement: Announcement)
     @Update
     suspend fun update(announcement: Announcement)

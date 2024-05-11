@@ -23,12 +23,12 @@ var lessons = arrayListOf(
     Lesson(audienceId = "252", numberOfLesson = 5, itemName =  "Управление проектами в сфере информационных технологий", date = "22.05.123", group = "БО941САП, БО941ПРИ, БО941ПИА, БО941БИО, БО941ГИО", itemType =  "Лекция", lecturer = "Белозерова С.И." ),
     Lesson(audienceId = "252", numberOfLesson = 6, itemName =  "Управление проектами в сфере информационных технологий", date = "22.05.123", group = "БО941САП, БО941ПРИ, БО941ПИА, БО941БИО, БО941ГИО", itemType =  "Лекция", lecturer = "Белозерова С.И." ),
     )
-var announcement = arrayListOf(
+var announcements = arrayListOf(
     Announcement(text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.1", date = "19.02.2002"),
     Announcement(text ="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.2",date ="56.34.1223"),
     Announcement(text ="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.3",date ="11.11.1111"),
 )
-var audienceModel = StandModel( Audience(numberOfAudience = "252", description = "lorem_ipsum"  ), lessons, announcement)
+var audienceModel = StandModel( Audience(numberOfAudience = "252", description = "lorem_ipsum"  ), lessons, announcements)
 
 
 class MainActivity : ComponentActivity() {
