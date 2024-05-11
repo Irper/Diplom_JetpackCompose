@@ -8,8 +8,12 @@ import retrofit2.converter.gson.GsonConverterFactory
 * */
 object NetworkObject {
     @Volatile
-    var retrofit = Retrofit.Builder()
+    var retrofitPost = Retrofit.Builder()
         .baseUrl("https://jsonplaceholder.typicode.com")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
+    /*@Volatile
+    var retrofitTimetable = Retrofit.Builder()
+        .baseUrl("https://dvgups.ru/index.php?Itemid=1246&option=com_timetable&view=newtimetable")
+        .build()*/
 }

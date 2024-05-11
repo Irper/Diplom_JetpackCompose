@@ -22,5 +22,5 @@ interface AnnouncementDao {
     @Query("SELECT * FROM announcements")
     fun readAll(): Flow<List<Announcement>>
     @Query("SELECT * from announcements WHERE id = :id")
-    fun readById(id : UUID) : Announcement
+    suspend fun readById(id : UUID) : Announcement
 }

@@ -6,28 +6,33 @@ import ru.vovan.diplomcompose.network.repository.PostRepository
 import ru.vovan.diplomcompose.network.repository.PostRepositoryImpl
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
-import ru.vovan.diplomcompose.database.StandDatabase
-import ru.vovan.diplomcompose.database.entity.Audience
+import ru.vovan.diplomcompose.database.AnnouncementDatabase
+import ru.vovan.diplomcompose.database.AudienceDatabase
 import ru.vovan.diplomcompose.database.repository.AnnouncementRepository
 import ru.vovan.diplomcompose.database.repository.AnnouncementRepositoryImpl
 import ru.vovan.diplomcompose.database.repository.AudienceRepository
 import ru.vovan.diplomcompose.database.repository.AudienceRepositoryImpl
 import ru.vovan.diplomcompose.viewmodel.DataViewModel
 
-/*
-* Koin для того, чтобы обеспечить работу VM с использованием PostRepository
-* */
+
 val dataModule = module {
     single<PostRepository> {
-        PostRepositoryImpl(NetworkObject.retrofit)
+        PostRepositoryImpl(NetworkObject.retrofitPost)
     }
     single<AudienceRepository> {
         AudienceRepositoryImpl(
-            StandDatabase
+            AudienceDatabase
                 .getDatabase(this.androidContext())
                 .audienceDao()
         )
     }
+    single<AnnouncementRepository> {
+        AnnouncementRepositoryImpl(
+            AnnouncementDatabase
+                .getDatabase(this.androidContext())
+                .announcementDao()
+        )
+    }
 
-    viewModel { DataViewModel(get(), get()) }
+    viewModel { DataViewModel(get(), get(), get()) }
 }

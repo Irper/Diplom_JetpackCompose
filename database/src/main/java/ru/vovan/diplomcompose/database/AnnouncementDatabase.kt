@@ -6,27 +6,22 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import kotlinx.coroutines.InternalCoroutinesApi
-import kotlinx.coroutines.internal.synchronized
 import ru.vovan.diplomcompose.database.converters.UUIDConverter
 import ru.vovan.diplomcompose.database.dao.AnnouncementDao
 import ru.vovan.diplomcompose.database.dao.AudienceDao
 import ru.vovan.diplomcompose.database.entity.Announcement
-import ru.vovan.diplomcompose.database.entity.Audience
-import ru.vovan.diplomcompose.database.entity.Lesson
 
-
-@Database(entities = [Audience::class, Lesson::class, Announcement::class], version = 1, exportSchema = false)
+@Database(entities = [Announcement::class], version = 1, exportSchema = false)
 @TypeConverters( value = [UUIDConverter::class])
-abstract class StandDatabase : RoomDatabase() {
-    abstract fun audienceDao(): AudienceDao
+abstract class AnnouncementDatabase : RoomDatabase() {
     abstract fun announcementDao(): AnnouncementDao
     companion object {
         @Volatile
-        private var Instance: StandDatabase? = null
+        private var Instance: AnnouncementDatabase? = null
         @OptIn(InternalCoroutinesApi::class)
-        fun getDatabase(context: Context): StandDatabase {
-            return Instance ?: synchronized(this){
-                Room.databaseBuilder(context, StandDatabase::class.java, "stand_database")
+        fun getDatabase(context: Context): AnnouncementDatabase {
+            return Instance ?: kotlinx.coroutines.internal.synchronized(this) {
+                Room.databaseBuilder(context, AnnouncementDatabase::class.java, "audience_database")
                     .fallbackToDestructiveMigration()
                     .build()
                     .also { Instance = it }
