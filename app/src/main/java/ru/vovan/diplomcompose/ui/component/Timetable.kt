@@ -114,13 +114,12 @@ fun TimetableLesson(lesson: Lesson){
     var hour by rememberSaveable { mutableIntStateOf(Calendar.getInstance().get(Calendar.HOUR_OF_DAY)) }
     var minute by rememberSaveable { mutableIntStateOf(Calendar.getInstance().get(Calendar.MINUTE)) }
     var time by rememberSaveable { mutableDoubleStateOf(0.0) }
-    var currentTimeCorrect by rememberSaveable { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         while (true) {
             hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
             minute = Calendar.getInstance().get(Calendar.MINUTE)
-            val timeTemp : String = "$hour.$minute"
+            val timeTemp : String = "$hour." + if (minute in 0 .. 9) "0$minute" else "$minute"
             time = timeTemp.toDouble()
             delay(60000) // Update hour every minute
         }

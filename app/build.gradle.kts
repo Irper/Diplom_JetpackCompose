@@ -52,6 +52,7 @@ android {
 }
 
 dependencies {
+    implementation("io.coil-kt:coil-compose:2.6.0")
     // https://mvnrepository.com/artifact/com.google.accompanist/accompanist-systemuicontroller
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.34.0")
     // https://mvnrepository.com/artifact/io.insert-koin/koin-androidx-compose

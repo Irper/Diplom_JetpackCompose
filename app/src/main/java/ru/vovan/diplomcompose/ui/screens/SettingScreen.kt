@@ -3,6 +3,8 @@ package ru.vovan.diplomcompose.ui.screens
 import android.annotation.SuppressLint
 import android.app.Activity
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
@@ -16,6 +18,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -27,7 +30,10 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -43,6 +49,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.vovan.diplomcompose.R
@@ -51,6 +58,7 @@ import ru.vovan.diplomcompose.ui.component.NumberOfAudience
 import ru.vovan.diplomcompose.ui.theme.DiplomComposeTheme
 import ru.vovan.diplomcompose.ui.theme.mainColor_dark
 import ru.vovan.diplomcompose.ui.theme.mainColor_light
+import kotlin.math.roundToInt
 
 @Composable
 fun SettingScreen(){
@@ -77,6 +85,9 @@ fun SettingScreen(){
         Spacer(Modifier.height(16.dp))
     }
 }
+
+
+
 @SuppressLint("UnusedContentLambdaTargetStateParameter")
 @Composable
 fun Password(onClick : () -> Unit){
@@ -84,7 +95,20 @@ fun Password(onClick : () -> Unit){
     var pass by remember { mutableStateOf("") }
     var passVisibility by remember { mutableStateOf(false) }
     var enteredIncorrectPass by remember { mutableStateOf(false) }
-    var enteredIncorrectPassCount by remember { mutableStateOf(0) }
+    var enteredIncorrectPassCount by remember { mutableIntStateOf(0) }
+
+    val shake = remember { Animatable(0f) }
+    LaunchedEffect(enteredIncorrectPassCount) {
+        if (enteredIncorrectPassCount != 0) {
+            for (i in 0..10) {
+                when (i % 2) {
+                    0 -> shake.animateTo(5f, spring(stiffness = 100_000f))
+                    else -> shake.animateTo(-5f, spring(stiffness = 100_000f))
+                }
+            }
+            shake.animateTo(0f)
+        }
+    }
 
     val icon = if (passVisibility) painterResource(id = R.drawable.icon_ic_visibility_icon)
     else painterResource(id = R.drawable.icon_ic_off_visibility_icon)
@@ -95,10 +119,13 @@ fun Password(onClick : () -> Unit){
             .heightIn(min = 80.dp),
     ){
         OutlinedTextField(
-            modifier = Modifier.align(alignment = Alignment.TopCenter)
+            modifier = Modifier
+                .align(alignment = Alignment.TopCenter)
                 .border(
                     width = 3.dp,
-                    brush = Brush.horizontalGradient(colors = listOf(mainColor_dark, mainColor_light)),
+                    brush = Brush.horizontalGradient(
+                        colors = listOf(mainColor_dark, mainColor_light)
+                    ),
                     shape = RoundedCornerShape(4.dp)
                 )
                 .widthIn(min = 300.dp, max = 500.dp),
@@ -120,28 +147,15 @@ fun Password(onClick : () -> Unit){
             singleLine = true
         )
         if (enteredIncorrectPass){
-            AnimatedContent(
-                modifier = Modifier.align(alignment = Alignment.BottomCenter),
-                targetState = enteredIncorrectPassCount,
-                transitionSpec = {
-                    slideInHorizontally(
-                        animationSpec = tween(200),
-                        initialOffsetX = { fullWidth -> fullWidth }
-                    ) togetherWith
-                            slideOutHorizontally(
-                                animationSpec = tween(200),
-                                targetOffsetX = { fullWidth -> -fullWidth }
-                            )
-                },
-                label = "effect"
-            ) {
-                Text(
-                    text = stringResource(id = R.string.label_incorrect),
-                    textAlign = TextAlign.Center,
-                    fontSize = 14.sp,
-                    color = Color.Red
-                )
-            }
+            Text(
+                text = stringResource(id = R.string.label_incorrect),
+                textAlign = TextAlign.Center,
+                fontSize = 14.sp,
+                color = Color.Red,
+                modifier = Modifier
+                    .align(alignment = Alignment.BottomCenter)
+                    .offset { IntOffset(shake.value.roundToInt(), y = 0) }
+            )
         }
     }
 
