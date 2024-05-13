@@ -46,11 +46,11 @@ fun Announcement(modifier: Modifier = Modifier, dataViewModel: DataViewModel = k
     val posts by dataViewModel.getAllPosts().collectAsState(initial = emptyList())
     audienceModel.setAnnouncement(posts)
 
-    /*dataViewModel.viewModelScope.launch {
         audienceModel.listAnnouncement.forEach {
-            dataViewModel.update(Announcement(text = it.text, date = it.date))
+            dataViewModel.viewModelScope.launch {
+                dataViewModel.update(Announcement(text = it.text, date = it.date))
         }
-    }*/
+    }
 
     var currentAnnouncement by rememberSaveable { mutableIntStateOf(0) }
     val announcement = audienceModel.listAnnouncement[if (currentAnnouncement >= 0) currentAnnouncement % audienceModel.listAnnouncement.count()

@@ -19,18 +19,18 @@ val dataModule = module {
     single<PostRepository> {
         PostRepositoryImpl(NetworkObject.retrofitPost)
     }
-    single<AudienceRepository> {
-        AudienceRepositoryImpl(
-            AudienceDatabase
-                .getDatabase(this.androidContext())
-                .audienceDao()
-        )
-    }
     single<AnnouncementRepository> {
         AnnouncementRepositoryImpl(
             AnnouncementDatabase
                 .getDatabase(this.androidContext())
                 .announcementDao()
+        )
+    }
+    single<AudienceRepository> {
+        AudienceRepositoryImpl(
+            AnnouncementDatabase
+                .getDatabase(this.androidContext())
+                .audienceDao()
         )
     }
 

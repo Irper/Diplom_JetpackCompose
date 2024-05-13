@@ -12,8 +12,8 @@ object NetworkObject {
         .baseUrl("https://jsonplaceholder.typicode.com")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
-    /*@Volatile
+    @Volatile
     var retrofitTimetable = Retrofit.Builder()
         .baseUrl("https://dvgups.ru/index.php?Itemid=1246&option=com_timetable&view=newtimetable")
-        .build()*/
+        .build()
 }
