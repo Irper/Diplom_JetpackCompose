@@ -1,7 +1,6 @@
 package ru.vovan.diplomcompose.ui.component
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -24,7 +23,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -35,7 +33,6 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.CompositingStrategy
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -124,7 +121,6 @@ fun TimetableLesson(lesson: Lesson){
             delay(60000) // Update hour every minute
         }
     }
-
 
     Surface(
         color = Color.Transparent,
@@ -222,16 +218,6 @@ fun NumberOfLesson(lesson: Lesson) {
             fontSize = 18.sp
         )
     }
-}
-
-@Composable
-fun DividingLine (modifier: Modifier){
-    Image(
-        modifier = modifier
-            .padding(top = 8.dp, bottom = 8.dp),
-        painter = painterResource(R.drawable.vertical_line),
-        contentDescription = null,
-    )
 }
 
 @Composable

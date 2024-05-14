@@ -30,31 +30,24 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 import ru.vovan.diplomcompose.R
 import ru.vovan.diplomcompose.database.entity.Announcement
-import ru.vovan.diplomcompose.ui.audienceModel
 import ru.vovan.diplomcompose.ui.theme.DiplomComposeTheme
 import ru.vovan.diplomcompose.viewmodel.DataViewModel
 
-@SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun Announcement(modifier: Modifier = Modifier, dataViewModel: DataViewModel = koinViewModel()){
-
-    val posts by dataViewModel.getAllPosts().collectAsState(initial = emptyList())
-    audienceModel.setAnnouncement(posts)
-
-        audienceModel.listAnnouncement.forEach {
-            dataViewModel.viewModelScope.launch {
-                dataViewModel.update(Announcement(text = it.text, date = it.date))
-        }
-    }
+    val listAnnouncement by dataViewModel.retrieveAnnouncement().collectAsState(initial = emptyList())
 
     var currentAnnouncement by rememberSaveable { mutableIntStateOf(0) }
-    val announcement = audienceModel.listAnnouncement[if (currentAnnouncement >= 0) currentAnnouncement % audienceModel.listAnnouncement.count()
-    else  (currentAnnouncement + (audienceModel.listAnnouncement.count() * (-currentAnnouncement))) % audienceModel.listAnnouncement.count()]
+    val announcement : Announcement = if (listAnnouncement.isEmpty()){
+        Announcement(text = "Объявлений нет", date = "")
+    }
+    else {
+        listAnnouncement[if (currentAnnouncement >= 0) currentAnnouncement % listAnnouncement.count()
+        else  (currentAnnouncement + (listAnnouncement.count() * (-currentAnnouncement))) % listAnnouncement.count()]
+    }
 
     Column (modifier = modifier) {
         AnnouncementHead(modifier = Modifier.align(Alignment.CenterHorizontally))

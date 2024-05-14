@@ -7,11 +7,9 @@ import org.koin.core.context.GlobalContext.startKoin
 import ru.vovan.diplomcompose.di.dataModule
 
 class DiplomApplication : Application(){
-        //  lateinit var container: AppContainer
 
         override fun onCreate() {
             super.onCreate()
-            //  container = AppDataContainer(this)
 
             startKoin{
                 androidLogger()
