@@ -15,7 +15,6 @@ import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-import java.util.UUID
 
 class DataViewModel(
     private val postRepository: PostRepository,
@@ -40,22 +39,18 @@ class DataViewModel(
     fun retrieveAudienceWithLessons() = audienceRepository.readAllAudienceWithLessons()
 
     // Announcement
-    suspend fun create(announcement: Announcement) { announcementRepository.create(announcement) }
     fun retrieveAnnouncement() = announcementRepository.readAll()
-    suspend fun read(id: UUID) { announcementRepository.read(id) }
-    suspend fun update(announcement: Announcement) {
-        announcementRepository.update(announcement)
-    }
     private suspend fun browserAnnouncement(announcementsFlow: Flow<List<Post>> = getAllPosts()) {
-        // Текущее время
-        val currentDate: Date = Date()
-        // Форматирование времени как "день.месяц.год"
-        val dateFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-        val dateText: String = dateFormat.format(currentDate)
+        announcementsFlow.collect {
+            if (it.isNotEmpty()) {
+                announcementRepository.deleteAll()
+                val currentDate: Date = Date()
+                val dateFormat: DateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
+                val dateText: String = dateFormat.format(currentDate)
 
-        announcementsFlow.collect { it ->
-            it.forEach{item ->
-                    announcementRepository.update(Announcement(text =  item.title, date = dateText))
+                it.forEach{item ->
+                    announcementRepository.create(Announcement(text =  item.title, date = dateText))
+                }
             }
         }
     }

@@ -17,7 +17,6 @@ import ru.vovan.diplomcompose.database.entity.Lesson
 @TypeConverters( value = [UUIDConverter::class])
 abstract class StandDatabase : RoomDatabase() {
     abstract fun audienceDao(): AudienceDao
-
     abstract fun announcementDao(): AnnouncementDao
     companion object {
         @Volatile
@@ -32,6 +31,4 @@ abstract class StandDatabase : RoomDatabase() {
             }
         }
     }
-
-
 }

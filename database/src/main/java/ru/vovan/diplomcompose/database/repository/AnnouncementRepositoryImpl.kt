@@ -11,4 +11,5 @@ class AnnouncementRepositoryImpl(private val announcementDao: AnnouncementDao): 
     override suspend fun read(id: UUID): Announcement = announcementDao.readById(id)
     override suspend fun update(t: Announcement)  = announcementDao.update(t)
     override suspend fun delete(t: Announcement) = announcementDao.delete(t)
+    override suspend fun deleteAll() = announcementDao.deleteAll()
 }

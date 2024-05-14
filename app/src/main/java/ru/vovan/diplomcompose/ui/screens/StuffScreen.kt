@@ -17,7 +17,6 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -26,13 +25,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import org.koin.androidx.compose.koinViewModel
-import ru.vovan.diplomcompose.network.model.Timetable
-import ru.vovan.diplomcompose.ui.audienceModel
+import ru.vovan.diplomcompose.R
 import ru.vovan.diplomcompose.ui.component.NumberOfAudience
 import ru.vovan.diplomcompose.ui.model.TestDataImage
 import ru.vovan.diplomcompose.ui.model.TestDataImageItem
@@ -41,7 +40,7 @@ import ru.vovan.diplomcompose.viewmodel.DataViewModel
 
 @Composable
 fun StuffScreen(dataViewModel: DataViewModel = koinViewModel()){
-    val stringLesson by dataViewModel.getAllTimetable().collectAsState(initial = Timetable())
+    //val stringLesson by dataViewModel.getAllTimetable().collectAsState(initial = Timetable())
     var selectedImageItem by remember { mutableStateOf<TestDataImageItem?>(null) }
 
     Column(
@@ -52,7 +51,7 @@ fun StuffScreen(dataViewModel: DataViewModel = koinViewModel()){
             .padding(top = 10.dp)
             .align(Alignment.CenterHorizontally)
         )
-        Text(text = audienceModel.description,
+        Text(text = stringResource(id = R.string.lorem_impum_long),
             fontSize = 30.sp,
             lineHeight = 30.sp,
             modifier = Modifier.padding(start = 20.dp, end = 20.dp)

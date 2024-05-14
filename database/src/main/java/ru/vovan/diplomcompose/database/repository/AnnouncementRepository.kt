@@ -10,4 +10,5 @@ interface AnnouncementRepository {
     suspend fun read(id: UUID): Announcement?
     suspend fun update(t: Announcement)
     suspend fun delete(t: Announcement)
+    suspend fun deleteAll()
 }
