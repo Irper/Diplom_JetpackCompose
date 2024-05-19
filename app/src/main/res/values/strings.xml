@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Diplom Compose</string>
-    <string name="title_timetable">Список занятий на сегодня</string>
+    <string name="title_timetable">Список занятий на</string>
+    <string name="no_lessons_timetable">Сегодня нет занятий в этом кабинете</string>
     <string name="text_group_timetable">Группа</string>
     <string name="text_groups_timetable">Группы</string>
     <string name="announcement_head">Объявления</string>

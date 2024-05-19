@@ -1,5 +1,6 @@
 package ru.vovan.diplomcompose.ui.component
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -20,6 +21,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableIntStateOf
@@ -40,20 +42,30 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
+import org.koin.androidx.compose.koinViewModel
 import ru.vovan.diplomcompose.R
 import ru.vovan.diplomcompose.database.entity.Lesson
-import ru.vovan.diplomcompose.ui.audienceModel
 import ru.vovan.diplomcompose.ui.theme.DiplomComposeTheme
 import ru.vovan.diplomcompose.ui.theme.alternative_dark
 import ru.vovan.diplomcompose.ui.theme.alternative_light
 import ru.vovan.diplomcompose.ui.theme.prepareLesson_dark
 import ru.vovan.diplomcompose.ui.theme.prepareLesson_light
 import ru.vovan.diplomcompose.ui.theme.text_blue
+import ru.vovan.diplomcompose.viewmodel.DataViewModel
+import java.text.DateFormat
+import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 
+@SuppressLint("CoroutineCreationDuringComposition")
 @Composable
-fun Timetable (modifier: Modifier){
-    val lessons_ = audienceModel.listLesson
+fun Timetable (modifier: Modifier, dataViewModel: DataViewModel = koinViewModel()){
+    val currentDate: Date = Date()
+    val dateFormat: DateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
+    val dateText: String = dateFormat.format(currentDate)
+
+    val listLesson by dataViewModel.readLessonByDate(dateText).collectAsState(initial = emptyList())
 
     Surface(
         modifier = modifier
@@ -75,16 +87,16 @@ fun Timetable (modifier: Modifier){
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            TimetableHeader(modifier = Modifier.padding(bottom = 8.dp))
-            TimetableLessons(lessons_)
+            TimetableHeader(modifier = Modifier.padding(bottom = 8.dp), date = " $dateText")
+            if (listLesson.isEmpty()) Text(text = stringResource(id = R.string.no_lessons_timetable)) else TimetableLessons(listLesson)
         }
     }
 }
 
 @Composable
-fun TimetableHeader (modifier: Modifier){
+fun TimetableHeader (modifier: Modifier, date : String){
     Text(
-        stringResource(id = R.string.title_timetable),
+        text = stringResource(id = R.string.title_timetable) + date,
         modifier = modifier,
         fontSize = 32.sp,
         textAlign = TextAlign.Center
@@ -129,11 +141,16 @@ fun TimetableLesson(lesson: Lesson){
             .background(
                 brush = if (setCurrentLessonGradient(lesson.numberOfLesson, time)) {
                     Brush.horizontalGradient(colors = listOf(alternative_dark, alternative_light))
-                }
-                else if(setCurrentPrepareLessonGradient(lesson.numberOfLesson, time)) {
-                    Brush.horizontalGradient(colors = listOf(prepareLesson_dark, prepareLesson_light))
-                }
-                else{ Brush.horizontalGradient(colors = listOf(Color.White, Color.White)) },
+                } else if (setCurrentPrepareLessonGradient(lesson.numberOfLesson, time)) {
+                    Brush.horizontalGradient(
+                        colors = listOf(
+                            prepareLesson_dark,
+                            prepareLesson_light
+                        )
+                    )
+                } else {
+                    Brush.horizontalGradient(colors = listOf(Color.White, Color.White))
+                },
                 shape = RoundedCornerShape(16.dp)
             ),
         shape = RoundedCornerShape(16.dp),

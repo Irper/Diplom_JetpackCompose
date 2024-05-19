@@ -1,5 +1,6 @@
 package ru.vovan.diplomcompose.ui.screens
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -20,27 +21,37 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewModelScope
 import coil.compose.rememberAsyncImagePainter
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
-import ru.vovan.diplomcompose.R
 import ru.vovan.diplomcompose.ui.component.NumberOfAudience
 import ru.vovan.diplomcompose.ui.model.TestDataImage
 import ru.vovan.diplomcompose.ui.model.TestDataImageItem
 import ru.vovan.diplomcompose.ui.theme.DiplomComposeTheme
 import ru.vovan.diplomcompose.viewmodel.DataViewModel
 
+@SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun StuffScreen(dataViewModel: DataViewModel = koinViewModel()){
-    //val stringLesson by dataViewModel.getAllTimetable().collectAsState(initial = Timetable())
+    var audienceDesc by rememberSaveable { mutableStateOf("") }
+
+    dataViewModel.viewModelScope.launch {
+        val audienceTemp = dataViewModel.readByIdAudience("101")
+        if (audienceTemp != null) {
+            audienceDesc = audienceTemp.description
+        }
+    }
+
     var selectedImageItem by remember { mutableStateOf<TestDataImageItem?>(null) }
 
     Column(
@@ -51,7 +62,7 @@ fun StuffScreen(dataViewModel: DataViewModel = koinViewModel()){
             .padding(top = 10.dp)
             .align(Alignment.CenterHorizontally)
         )
-        Text(text = stringResource(id = R.string.lorem_impum_long),
+        Text(text = audienceDesc,
             fontSize = 30.sp,
             lineHeight = 30.sp,
             modifier = Modifier.padding(start = 20.dp, end = 20.dp)

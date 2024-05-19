@@ -11,5 +11,4 @@ import ru.vovan.diplomcompose.network.model.Post
 interface PostAPI {
     @GET("todos/")
     suspend fun getAllPosts() :List<Post>
-
 }

@@ -4,11 +4,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
+import okhttp3.FormBody
+import org.jsoup.Jsoup
 import ru.vovan.diplomcompose.database.entity.Announcement
 import ru.vovan.diplomcompose.database.entity.Audience
+import ru.vovan.diplomcompose.database.entity.Lesson
 import ru.vovan.diplomcompose.database.repository.AnnouncementRepository
 import ru.vovan.diplomcompose.database.repository.AudienceRepository
 import ru.vovan.diplomcompose.network.model.Post
+import ru.vovan.diplomcompose.network.network.TimetableAPI
+import ru.vovan.diplomcompose.network.network.TimetableNetworkObject
 import ru.vovan.diplomcompose.network.repository.PostRepository
 import ru.vovan.diplomcompose.network.repository.TimetableRepository
 import java.text.DateFormat
@@ -25,6 +30,7 @@ class DataViewModel(
     init {
         viewModelScope.launch {
             browserAnnouncement()
+            getTimetable("101")
         }
     }
     private fun getAllPosts() = postRepository.getAllPosts()
@@ -32,11 +38,8 @@ class DataViewModel(
 
     // Audience
     fun retrieveAudience() = audienceRepository.readAll()
-    suspend fun create(audience: Audience){ audienceRepository.create(audience) }
-    suspend fun read(id: String){ audienceRepository.read(id) }
-    suspend fun update(audience: Audience){ audienceRepository.update(audience) }
-    suspend fun delete(audience: Audience){ audienceRepository.delete(audience) }
-    fun retrieveAudienceWithLessons() = audienceRepository.readAllAudienceWithLessons()
+    suspend fun readByIdAudience(id : String) = audienceRepository.read(id)
+    fun readLessonByDate(date: String) = audienceRepository.readLessonByDate(date)
 
     // Announcement
     fun retrieveAnnouncement() = announcementRepository.readAll()
@@ -54,5 +57,91 @@ class DataViewModel(
             }
         }
     }
+    // Parse timetable
+    fun getTimetable(audienceNumber: String) {
+        val b = FormBody.Builder().add("AudID", audienceNumber).build()
+        try {
+            viewModelScope.launch {
+                val str = TimetableNetworkObject.retrofitTimetable.create(TimetableAPI::class.java).getAllTimetable(b).string()
+                if (str.isNotEmpty())
+                {
+                    audienceRepository.deleteAllAudience()
+                    audienceRepository.deleteAllLesson()
+                    // Паттерны
+                    val datePattern = "(0?[1-9]|[12][0-9]|3[01])[.](0?[1-9]|1[012])[.]([0-9][0-9][0-9][0-9])"
+                    val numberOfLessonPattern = "[0-9]"
+                    val itemTypePattern = "(Практика|Лабораторные работы|Лекции|Экзамен|Предэкзаменационные консультации)"
+                    val groupPattern = "([А-ЯЁ]+[0-9]+[А-ЯЁ]+)"
+                    val emailIconPattern = " ✉"
+                    // Парсинг Jsoup
+                    val doc = Jsoup.parse(str)
+                    // Заголовки
+                    val h3 = doc.getElementsByTag("h3")
+                    val tables = doc.getElementsByTag("table")
+                    // Объекты для Lesson
+                    var regexDate : String
+                    var regexNumberOfLesson : Int
+                    var regexItemType : String
+                    var regexItemName : String
+                    var regexListGroup : String = ""
+                    var regexLecture : String
 
+                    for (i in 0 until h3.size)
+                    {
+                        // Регулярное выраженния для даты
+                        val patternRegexDate = Regex(datePattern)
+                        regexDate = patternRegexDate.find(h3[i].text())?.value ?: ""
+
+                        // Все уроки на 1 день
+                        val docTemp = Jsoup.parse(tables[i].toString())
+                        val tr = docTemp.getElementsByTag("tr")
+                        // Каждый урок по порядку
+                        tr.forEach {trIt ->
+                            val elementDiv = trIt.select("div")
+                            val elementTd = trIt.select("td")
+
+                            val tempNumberOfLesson = elementDiv.select("div").eq(1).text()
+                            val tempItemLesson = elementDiv.select("div").eq(2).text()
+                            val tempGroup = elementTd.select("td").eq(3).text()
+                            val tempLecture = elementDiv.select("div").eq(4).text()
+
+                            // Регулярное выраженния: НОМЕР ЗАНЯТИЯ
+                            val patternRegexNumberOfLesson = Regex(numberOfLessonPattern)
+                            regexNumberOfLesson = patternRegexNumberOfLesson.find(tempNumberOfLesson)?.value?.toInt() ?: 0
+
+                            // Регулярное выраженния: ТИП ПРЕДМЕТА, НАЗВАНИЕ ПРЕДМЕТА
+                            val patternItemType = Regex(itemTypePattern)
+                            regexItemType = patternItemType.find(tempItemLesson)?.value ?: ""
+                            regexItemName = tempItemLesson.subSequence(regexItemType.length + 3, tempItemLesson.length).toString()
+
+                            // Регулярное выраженние: ГРУППЫ
+                            val patternGroup = Regex(groupPattern)
+                            val regexGroup = patternGroup.findAll(tempGroup)
+                            regexGroup.forEach { it ->
+                                regexListGroup += if (regexGroup.last().value == it.value) it.value else it.value + ", "
+                            }
+                            // Регулярное выраженния: ИМЯ ПРЕПОДАВАТЕЛЯ
+                            val patternLecture = Regex(emailIconPattern)
+                            regexLecture = patternLecture.replace(tempLecture, "")
+                            // Добавление в базу данных УРОКА (в цикле - получается список)
+                            audienceRepository.create(Lesson(
+                                audienceId = audienceNumber,
+                                numberOfLesson = regexNumberOfLesson,
+                                itemName = regexItemName,
+                                date = regexDate,
+                                group = regexListGroup,
+                                itemType = regexItemType,
+                                lecturer = regexLecture
+                            ))
+                            regexListGroup = ""
+                        }
+                    }
+                    // Добавление в базу данных АУДИТОРИИ
+                    audienceRepository.create(Audience(numberOfAudience = audienceNumber, description = "123"))
+                }
+            }
+        } catch (e: Exception){
+            e.printStackTrace()
+        }
+    }
 }

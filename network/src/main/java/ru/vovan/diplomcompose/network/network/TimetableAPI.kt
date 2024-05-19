@@ -1,9 +1,11 @@
 package ru.vovan.diplomcompose.network.network
 
-import retrofit2.http.GET
-import ru.vovan.diplomcompose.network.model.Timetable
+import okhttp3.RequestBody
+import okhttp3.ResponseBody
+import retrofit2.http.Body
+import retrofit2.http.POST
 
 interface TimetableAPI {
-    @GET("index.php?Itemid=1246&option=com_timetable&view=newtimetable")
-    suspend fun getAllTimetable() : Timetable
+    @POST("index.php?Itemid=1246&option=com_timetable&view=newtimetable/")
+    suspend fun getAllTimetable(@Body AudID: RequestBody) : ResponseBody
 }
