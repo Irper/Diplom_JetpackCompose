@@ -2,13 +2,9 @@ package ru.vovan.diplomcompose.ui.screens
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import androidx.compose.animation.AnimatedContent
+import android.widget.Toast
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.spring
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
-import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -25,17 +21,22 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -177,16 +178,53 @@ fun PassEntered(){
     // Выход из приложения
     val activity = (LocalContext.current as? Activity)
 
-    ButtonSetting (
-        text = stringResource(id = R.string.button_assign_audience),
-        onClick = { /*TODO*/ }
-    )
+    ExposedDropdownMenuBox()
     ButtonSetting (
         text = stringResource(id = R.string.button_exit),
         onClick = {activity?.finish()}
     )
 }
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ExposedDropdownMenuBox(modifier: Modifier = Modifier) {
+    val context = LocalContext.current
+    val currentAud = arrayOf("101", "1011")
+    var expanded by remember { mutableStateOf(false) }
+    var selectedText by rememberSaveable { mutableStateOf(currentAud[0]) }
 
+    Box() {
+        ExposedDropdownMenuBox(
+            expanded = expanded,
+            onExpandedChange = {
+                expanded = !expanded
+            }
+        ) {
+            TextField(
+                value = selectedText,
+                onValueChange = {},
+                readOnly = true,
+                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+                modifier = Modifier.menuAnchor()
+            )
+
+            ExposedDropdownMenu(
+                expanded = expanded,
+                onDismissRequest = { expanded = false }
+            ) {
+                currentAud.forEach { item ->
+                    DropdownMenuItem(
+                        text = { Text(text = item) },
+                        onClick = {
+                            selectedText = item
+                            expanded = false
+                            Toast.makeText(context, item, Toast.LENGTH_SHORT).show()
+                        }
+                    )
+                }
+            }
+        }
+    }
+}
 @Composable
 fun ButtonSetting(text : String, onClick : () -> Unit, modifier: Modifier = Modifier){
     GradientButton(
@@ -200,6 +238,6 @@ fun ButtonSetting(text : String, onClick : () -> Unit, modifier: Modifier = Modi
 @Composable
 fun SettingScreenPreview() {
     DiplomComposeTheme {
-        SettingScreen()
+        ExposedDropdownMenuBox()
     }
 }
