@@ -238,6 +238,6 @@ fun ButtonSetting(text : String, onClick : () -> Unit, modifier: Modifier = Modi
 @Composable
 fun SettingScreenPreview() {
     DiplomComposeTheme {
-        ExposedDropdownMenuBox()
+
     }
 }
