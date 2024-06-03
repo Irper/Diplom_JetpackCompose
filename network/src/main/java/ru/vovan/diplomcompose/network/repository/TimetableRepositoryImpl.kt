@@ -8,8 +8,9 @@ import ru.vovan.diplomcompose.network.network.TimetableAPI
 import ru.vovan.diplomcompose.network.network.TimetableNetworkObject
 
 class TimetableRepositoryImpl(private val retrofit: Retrofit): TimetableRepository {
-    override fun getAllTimetable(): Flow<String> =
+    override fun getAllTimetable(audienceNumber : String): Flow<String> =
         flow {
-            emit(TimetableNetworkObject.retrofitTimetable.create(TimetableAPI::class.java).getAllTimetable(b).string())
+            //val response = retrofit.create(TimetableAPI::class.java).getAllTimetable( FormBody.Builder().add("AudID", "101").build())
+            emit(TimetableNetworkObject.retrofitTimetable.create(TimetableAPI::class.java).getAllTimetable(FormBody.Builder().add("AudID", audienceNumber).build()).string())
         }
 }
