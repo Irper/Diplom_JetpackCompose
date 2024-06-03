@@ -36,6 +36,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -53,12 +54,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.launch
+import org.koin.androidx.compose.koinViewModel
 import ru.vovan.diplomcompose.R
 import ru.vovan.diplomcompose.ui.component.GradientButton
 import ru.vovan.diplomcompose.ui.component.NumberOfAudience
+import ru.vovan.diplomcompose.ui.model.CurrentAudience
+import ru.vovan.diplomcompose.ui.model.CurrentAudienceObject
 import ru.vovan.diplomcompose.ui.theme.DiplomComposeTheme
 import ru.vovan.diplomcompose.ui.theme.mainColor_dark
 import ru.vovan.diplomcompose.ui.theme.mainColor_light
+import ru.vovan.diplomcompose.viewmodel.DataViewModel
 import kotlin.math.roundToInt
 
 @Composable
@@ -186,13 +192,15 @@ fun PassEntered(){
 }
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ExposedDropdownMenuBox(modifier: Modifier = Modifier) {
+fun ExposedDropdownMenuBox(modifier: Modifier = Modifier, dataViewModel: DataViewModel = koinViewModel()) {
     val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    val dataStore =  CurrentAudience(context = context)
     val currentAud = arrayOf("101", "1011")
     var expanded by remember { mutableStateOf(false) }
-    var selectedText by rememberSaveable { mutableStateOf(currentAud[0]) }
+    var selectedText by rememberSaveable { mutableStateOf(CurrentAudienceObject.currentAudience) }
 
-    Box() {
+    Box {
         ExposedDropdownMenuBox(
             expanded = expanded,
             onExpandedChange = {
@@ -215,7 +223,13 @@ fun ExposedDropdownMenuBox(modifier: Modifier = Modifier) {
                     DropdownMenuItem(
                         text = { Text(text = item) },
                         onClick = {
-                            selectedText = item
+                            scope.launch {
+                                dataStore.saveAudienceNumber(item)
+                                CurrentAudienceObject.currentAudience = item
+                                selectedText = item
+                                dataViewModel.getTimetable(item)
+                            }
+
                             expanded = false
                             Toast.makeText(context, item, Toast.LENGTH_SHORT).show()
                         }

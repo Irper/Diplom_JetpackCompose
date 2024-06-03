@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
-import okhttp3.FormBody
 import org.jsoup.Jsoup
 import ru.vovan.diplomcompose.database.entity.Announcement
 import ru.vovan.diplomcompose.database.entity.Audience
@@ -12,10 +11,9 @@ import ru.vovan.diplomcompose.database.entity.Lesson
 import ru.vovan.diplomcompose.database.repository.AnnouncementRepository
 import ru.vovan.diplomcompose.database.repository.AudienceRepository
 import ru.vovan.diplomcompose.network.model.Post
-import ru.vovan.diplomcompose.network.network.TimetableAPI
-import ru.vovan.diplomcompose.network.network.TimetableNetworkObject
 import ru.vovan.diplomcompose.network.repository.PostRepository
 import ru.vovan.diplomcompose.network.repository.TimetableRepository
+import ru.vovan.diplomcompose.ui.model.CurrentAudienceObject
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -30,11 +28,11 @@ class DataViewModel(
     init {
         viewModelScope.launch {
             browserAnnouncement()
-            getTimetable("101")
+            getTimetable(CurrentAudienceObject.currentAudience)
         }
     }
     private fun getAllPosts() = postRepository.getAllPosts()
-    fun getAllTimetable() = timetableRepository.getAllTimetable()
+    private fun getAllTimetable(audienceNumber: String) = timetableRepository.getAllTimetable(audienceNumber)
 
     // Audience
     fun retrieveAudience() = audienceRepository.readAll()
@@ -58,12 +56,14 @@ class DataViewModel(
         }
     }
     // Parse timetable
-    fun getTimetable(audienceNumber: String) {
-        val b = FormBody.Builder().add("AudID", audienceNumber).build()
+    fun getTimetable(audienceNumber: String, strFlow : Flow<String> = getAllTimetable(audienceNumber)) {
+        var strParse : String = ""
         try {
             viewModelScope.launch {
-                val str = TimetableNetworkObject.retrofitTimetable.create(TimetableAPI::class.java).getAllTimetable(b).string()
-                if (str.isNotEmpty())
+                strFlow.collect {
+                    strParse = it
+                }
+                if (strParse.isNotEmpty())
                 {
                     audienceRepository.deleteAllAudience()
                     audienceRepository.deleteAllLesson()
@@ -74,7 +74,7 @@ class DataViewModel(
                     val groupPattern = "([А-ЯЁ]+[0-9]+[А-ЯЁ]+)"
                     val emailIconPattern = " ✉"
                     // Парсинг Jsoup
-                    val doc = Jsoup.parse(str)
+                    val doc = Jsoup.parse(strParse)
                     // Заголовки
                     val h3 = doc.getElementsByTag("h3")
                     val tables = doc.getElementsByTag("table")
