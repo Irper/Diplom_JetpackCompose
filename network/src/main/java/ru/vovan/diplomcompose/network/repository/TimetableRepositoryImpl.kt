@@ -5,11 +5,11 @@ import kotlinx.coroutines.flow.flow
 import okhttp3.FormBody
 import retrofit2.Retrofit
 import ru.vovan.diplomcompose.network.network.TimetableAPI
+import ru.vovan.diplomcompose.network.network.TimetableNetworkObject
 
 class TimetableRepositoryImpl(private val retrofit: Retrofit): TimetableRepository {
     override fun getAllTimetable(): Flow<String> =
         flow {
-            val response = retrofit.create(TimetableAPI::class.java).getAllTimetable( FormBody.Builder().add("AudID", "101").build())
-            emit(response.toString())
+            emit(TimetableNetworkObject.retrofitTimetable.create(TimetableAPI::class.java).getAllTimetable(b).string())
         }
 }

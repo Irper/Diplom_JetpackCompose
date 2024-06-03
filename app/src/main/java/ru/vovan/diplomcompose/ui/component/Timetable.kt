@@ -54,6 +54,8 @@ import ru.vovan.diplomcompose.ui.theme.text_blue
 import ru.vovan.diplomcompose.viewmodel.DataViewModel
 import java.text.DateFormat
 import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.ZonedDateTime
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
@@ -120,6 +122,8 @@ fun TimetableLessons(lessons : List<Lesson>){
 
 @Composable
 fun TimetableLesson(lesson: Lesson){
+    // LocalDateTime.now().
+    //учет часового пояса LocalDateTime
     var hour by rememberSaveable { mutableIntStateOf(Calendar.getInstance().get(Calendar.HOUR_OF_DAY)) }
     var minute by rememberSaveable { mutableIntStateOf(Calendar.getInstance().get(Calendar.MINUTE)) }
     var time by rememberSaveable { mutableDoubleStateOf(0.0) }

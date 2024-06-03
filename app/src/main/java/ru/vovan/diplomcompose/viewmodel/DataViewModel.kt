@@ -63,6 +63,7 @@ class DataViewModel(
         try {
             viewModelScope.launch {
                 val str = TimetableNetworkObject.retrofitTimetable.create(TimetableAPI::class.java).getAllTimetable(b).string()
+
                 if (str.isNotEmpty())
                 {
                     audienceRepository.deleteAllAudience()
