@@ -231,7 +231,7 @@ fun ExposedDropdownMenuBox(modifier: Modifier = Modifier, dataViewModel: DataVie
                                 CurrentAudienceObject.currentAudience = item
                                 onAudChange(item)
                                 selectedText = item
-                                dataViewModel.getTimetable(item)
+                                dataViewModel.browserTimetable(item)
                             }
 
                             expanded = false

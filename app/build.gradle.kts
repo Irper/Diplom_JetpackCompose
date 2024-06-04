@@ -63,6 +63,8 @@ dependencies {
     implementation("androidx.room:room-runtime:2.6.1")
     // Для сохранение аудитории
     implementation ("androidx.datastore:datastore-preferences:1.1.1")
+    //WorkManager
+    implementation ("androidx.work:work-runtime-ktx:2.9.0")
 
     implementation("androidx.navigation:navigation-compose:2.7.7")
     implementation("androidx.compose.material:material:1.6.7")

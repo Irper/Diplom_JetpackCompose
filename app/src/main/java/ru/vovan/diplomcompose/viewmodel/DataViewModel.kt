@@ -28,7 +28,7 @@ class DataViewModel(
     init {
         viewModelScope.launch {
             browserAnnouncement()
-            getTimetable(CurrentAudienceObject.currentAudience)
+            browserTimetable(CurrentAudienceObject.currentAudience)
         }
     }
     private fun getAllPosts() = postRepository.getAllPosts()
@@ -41,22 +41,24 @@ class DataViewModel(
 
     // Announcement
     fun retrieveAnnouncement() = announcementRepository.readAll()
-    private suspend fun browserAnnouncement(announcementsFlow: Flow<List<Post>> = getAllPosts()) {
-        announcementsFlow.collect {
-            if (it.isNotEmpty()) {
-                announcementRepository.deleteAll()
-                val currentDate: Date = Date()
-                val dateFormat: DateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
-                val dateText: String = dateFormat.format(currentDate)
+    fun browserAnnouncement(announcementsFlow: Flow<List<Post>> = getAllPosts()) {
+        viewModelScope.launch{
+            announcementsFlow.collect {
+                if (it.isNotEmpty()) {
+                    announcementRepository.deleteAll()
+                    val currentDate: Date = Date()
+                    val dateFormat: DateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
+                    val dateText: String = dateFormat.format(currentDate)
 
-                it.forEach{item ->
-                    announcementRepository.create(Announcement(text =  item.title, date = dateText))
+                    it.forEach{item ->
+                        announcementRepository.create(Announcement(text =  item.title, date = dateText))
+                    }
                 }
             }
         }
     }
     // Parse timetable
-    fun getTimetable(audienceNumber: String, strFlow : Flow<String> = getAllTimetable(audienceNumber)) {
+    fun browserTimetable(audienceNumber: String, strFlow : Flow<String> = getAllTimetable(audienceNumber)) {
         var strParse : String = ""
         try {
             viewModelScope.launch {
