@@ -11,7 +11,6 @@ class BrowseTimetableWorker (
     parameters: WorkerParameters,
     private val dataViewModel: DataViewModel
 ) : Worker(context, parameters) {
-
     override fun doWork(): Result {
         return try {
             dataViewModel.browserAnnouncement()
