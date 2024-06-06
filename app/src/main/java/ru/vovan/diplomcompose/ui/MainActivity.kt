@@ -42,7 +42,6 @@ fun MyApp(){
         }
     }
 
-
     NavigationBar()
 }
 

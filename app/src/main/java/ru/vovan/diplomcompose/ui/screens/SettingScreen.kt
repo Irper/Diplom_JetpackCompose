@@ -70,7 +70,9 @@ import kotlin.math.roundToInt
 @Composable
 fun SettingScreen(){
     var entered by remember { mutableStateOf(false) }
-
+    var audNumber by rememberSaveable {
+        mutableStateOf("")
+    }
     Column(
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -83,7 +85,9 @@ fun SettingScreen(){
             modifier = Modifier.fillMaxWidth()
         ){
             if (entered){
-                PassEntered()
+                PassEntered{
+                    audNumber = it
+                }
             }
             else {
                 Password(onClick = {entered = !entered})
@@ -180,11 +184,11 @@ fun Password(onClick : () -> Unit){
 }
 
 @Composable
-fun PassEntered(){
+fun PassEntered(onAudChanged: (String) -> Unit ){
     // Выход из приложения
     val activity = (LocalContext.current as? Activity)
 
-    ExposedDropdownMenuBox()
+    ExposedDropdownMenuBox(onAudChanged = onAudChanged)
     ButtonSetting (
         text = stringResource(id = R.string.button_exit),
         onClick = {activity?.finish()}
@@ -192,13 +196,16 @@ fun PassEntered(){
 }
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ExposedDropdownMenuBox(modifier: Modifier = Modifier, dataViewModel: DataViewModel = koinViewModel()) {
+fun ExposedDropdownMenuBox(modifier: Modifier = Modifier, dataViewModel: DataViewModel = koinViewModel(), onAudChanged: (String) -> Unit ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val dataStore =  CurrentAudience(context = context)
     val currentAud = arrayOf("101", "1011")
     var expanded by remember { mutableStateOf(false) }
-    var selectedText by rememberSaveable { mutableStateOf(CurrentAudienceObject.currentAudience) }
+    var selectedText by rememberSaveable {
+        onAudChanged(CurrentAudienceObject.currentAudience)
+        mutableStateOf(CurrentAudienceObject.currentAudience)
+    }
 
     Box {
         ExposedDropdownMenuBox(
@@ -226,6 +233,8 @@ fun ExposedDropdownMenuBox(modifier: Modifier = Modifier, dataViewModel: DataVie
                             scope.launch {
                                 dataStore.saveAudienceNumber(item)
                                 CurrentAudienceObject.currentAudience = item
+                                onAudChanged(item)
+
                                 selectedText = item
                                 dataViewModel.getTimetable(item)
                             }

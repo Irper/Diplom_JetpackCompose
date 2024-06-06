@@ -61,8 +61,9 @@ dependencies {
 
     //добавил из database потому что dataModule выдавал ошибку
     implementation("androidx.room:room-runtime:2.6.1")
-    // Для сохранение аудитории
+    // Для сохранение номера аудитории (CurrentAudienceObject)
     implementation ("androidx.datastore:datastore-preferences:1.1.1")
+
 
     implementation("androidx.navigation:navigation-compose:2.7.7")
     implementation("androidx.compose.material:material:1.6.7")
