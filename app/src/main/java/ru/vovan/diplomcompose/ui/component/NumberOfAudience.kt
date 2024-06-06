@@ -10,10 +10,10 @@ import ru.vovan.diplomcompose.ui.model.CurrentAudienceObject
 
 
 @Composable
-fun NumberOfAudience(modifier: Modifier){
+fun NumberOfAudience(modifier: Modifier, currentAudience: String = CurrentAudienceObject.currentAudience){
 
     Text(
-        text = "Ауд. " + CurrentAudienceObject.currentAudience,
+        text = "Ауд. $currentAudience",
         textAlign = TextAlign.Center,
         fontSize = 96.sp,
         fontWeight = FontWeight.Bold,
