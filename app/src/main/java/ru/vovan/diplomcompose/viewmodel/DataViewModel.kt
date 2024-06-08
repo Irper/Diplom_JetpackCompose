@@ -138,8 +138,9 @@ class DataViewModel(
                             regexListGroup = ""
                         }
                     }
+                    val descriptorAud = "Лабораторная компьютерная аудитория 3430 предназначена для проведения практических занятий, семинаров и самостоятельной работы студентов, связанных с использованием компьютеров. \nОна оборудована: \n* Компьютерами с необходимым программным обеспечением \n* Сенсорной доской \n"
                     // Добавление в базу данных АУДИТОРИИ
-                    audienceRepository.create(Audience(numberOfAudience = audienceNumber, description = "123"))
+                    audienceRepository.create(Audience(numberOfAudience = audienceNumber, description = descriptorAud))
                 }
             }
         } catch (e: Exception){

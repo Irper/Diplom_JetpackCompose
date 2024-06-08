@@ -35,6 +35,7 @@ import coil.compose.rememberAsyncImagePainter
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 import ru.vovan.diplomcompose.ui.component.NumberOfAudience
+import ru.vovan.diplomcompose.ui.model.CurrentAudienceObject
 import ru.vovan.diplomcompose.ui.model.TestDataImage
 import ru.vovan.diplomcompose.ui.model.TestDataImageItem
 import ru.vovan.diplomcompose.ui.theme.DiplomComposeTheme
@@ -46,10 +47,7 @@ fun StuffScreen(dataViewModel: DataViewModel = koinViewModel()){
     var audienceDesc by rememberSaveable { mutableStateOf("") }
 
     dataViewModel.viewModelScope.launch {
-        val audienceTemp = dataViewModel.readByIdAudience("101")
-        if (audienceTemp != null) {
-            audienceDesc = audienceTemp.description
-        }
+        audienceDesc = dataViewModel.readByIdAudience(CurrentAudienceObject.currentAudience)?.description.toString()
     }
 
     var selectedImageItem by remember { mutableStateOf<TestDataImageItem?>(null) }
@@ -64,7 +62,7 @@ fun StuffScreen(dataViewModel: DataViewModel = koinViewModel()){
         )
         Text(text = audienceDesc,
             fontSize = 30.sp,
-            lineHeight = 30.sp,
+            lineHeight = 40.sp,
             modifier = Modifier.padding(start = 20.dp, end = 20.dp)
         )
         AudiencePhotos(

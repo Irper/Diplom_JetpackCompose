@@ -196,7 +196,7 @@ fun ExposedDropdownMenuBox(modifier: Modifier = Modifier, dataViewModel: DataVie
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val dataStore =  CurrentAudience(context = context)
-    val currentAud = arrayOf("101", "1011")
+    val currentAud = arrayOf("101", "3430", "428", "431", )
     var expanded by remember { mutableStateOf(false) }
     var selectedText by rememberSaveable {
         onAudChange(CurrentAudienceObject.currentAudience)
