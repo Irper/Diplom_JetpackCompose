@@ -10,7 +10,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.vovan.diplomcompose.R
@@ -26,7 +27,7 @@ fun MapScreen(){
         ) {
         NumberOfAudience(modifier = Modifier.padding(top = 10.dp))
         Image(
-            painter = painterResource(id = R.drawable.stub_map_3d),
+            bitmap = ImageBitmap.imageResource(R.drawable.map),
             contentDescription = "map",
             modifier = Modifier
         )
