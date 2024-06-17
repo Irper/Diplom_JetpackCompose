@@ -33,12 +33,15 @@ import androidx.compose.ui.unit.sp
 import org.koin.androidx.compose.koinViewModel
 import ru.vovan.diplomcompose.R
 import ru.vovan.diplomcompose.database.entity.Announcement
+import ru.vovan.diplomcompose.ui.listAnnouncement
 import ru.vovan.diplomcompose.ui.theme.DiplomComposeTheme
 import ru.vovan.diplomcompose.viewmodel.DataViewModel
 
+
+
 @Composable
 fun Announcement(modifier: Modifier = Modifier, dataViewModel: DataViewModel = koinViewModel()){
-    val listAnnouncement by dataViewModel.retrieveAnnouncement().collectAsState(initial = emptyList())
+    //val listAnnouncement by dataViewModel.retrieveAnnouncement().collectAsState(initial = emptyList())
 
     var currentAnnouncement by rememberSaveable { mutableIntStateOf(0) }
     val announcement : Announcement = if (listAnnouncement.isEmpty()){
@@ -48,6 +51,7 @@ fun Announcement(modifier: Modifier = Modifier, dataViewModel: DataViewModel = k
         listAnnouncement[if (currentAnnouncement >= 0) currentAnnouncement % listAnnouncement.count()
         else  (currentAnnouncement + (listAnnouncement.count() * (-currentAnnouncement))) % listAnnouncement.count()]
     }
+
 
     Column (modifier = modifier) {
         AnnouncementHead(modifier = Modifier.align(Alignment.CenterHorizontally))

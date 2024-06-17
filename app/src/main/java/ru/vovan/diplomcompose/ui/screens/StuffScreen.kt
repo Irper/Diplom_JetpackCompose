@@ -1,6 +1,7 @@
 package ru.vovan.diplomcompose.ui.screens
 
 import android.annotation.SuppressLint
+import android.graphics.Bitmap
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -26,7 +27,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -34,10 +37,10 @@ import androidx.lifecycle.viewModelScope
 import coil.compose.rememberAsyncImagePainter
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
+import ru.vovan.diplomcompose.R
 import ru.vovan.diplomcompose.ui.component.NumberOfAudience
 import ru.vovan.diplomcompose.ui.model.CurrentAudienceObject
-import ru.vovan.diplomcompose.ui.model.TestDataImage
-import ru.vovan.diplomcompose.ui.model.TestDataImageItem
+
 import ru.vovan.diplomcompose.ui.theme.DiplomComposeTheme
 import ru.vovan.diplomcompose.viewmodel.DataViewModel
 
@@ -50,7 +53,8 @@ fun StuffScreen(dataViewModel: DataViewModel = koinViewModel()){
         audienceDesc = dataViewModel.readByIdAudience(CurrentAudienceObject.currentAudience)?.description.toString()
     }
 
-    var selectedImageItem by remember { mutableStateOf<TestDataImageItem?>(null) }
+    //var selectedImageItem by remember { mutableStateOf<TestDataImageItem?>(null) }
+    //var selectedImageItem by remember { mutableStateOf<ImageBitmap>(ImageBitmap.imageResource(R.drawable.desc1)) }
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -67,18 +71,28 @@ fun StuffScreen(dataViewModel: DataViewModel = koinViewModel()){
         )
         AudiencePhotos(
             modifier = Modifier.padding(top = 10.dp, bottom = 20.dp)
-        ) { newValue -> selectedImageItem = newValue as TestDataImageItem? }
+        ) { /*newValue -> selectedImageItem = newValue as ImageBitmap */}
     }
-    if (selectedImageItem != null) {
+    /*if (selectedImageItem != null) {
         FullScreenImage(feedItem = selectedImageItem) {
             selectedImageItem = null
         }
-    }
+    }*/
 }
+
+
 
 @Composable
 fun AudiencePhotos(modifier: Modifier, onClick: (Any?) -> Unit){
-    val feedItems: List<TestDataImageItem> = TestDataImage.testItemsList
+    //val feedItems: List<TestDataImageItem> = TestDataImage.testItemsList
+    val imageName = listOf(
+        ImageBitmap.imageResource(R.drawable.desc1),
+        ImageBitmap.imageResource(R.drawable.desc2),
+        ImageBitmap.imageResource(R.drawable.desc3),
+        ImageBitmap.imageResource(R.drawable.desc4),
+        ImageBitmap.imageResource(R.drawable.desc5),
+        ImageBitmap.imageResource(R.drawable.desc6),
+        )
 
     LazyRow (
         verticalAlignment = Alignment.CenterVertically,
@@ -86,14 +100,15 @@ fun AudiencePhotos(modifier: Modifier, onClick: (Any?) -> Unit){
         modifier = modifier.fillMaxWidth(),
         contentPadding = PaddingValues(start = 30.dp, end = 30.dp)
         ) {
-        items(feedItems){
+        items(imageName){
             item ->
             Box(modifier = Modifier
                 .height(250.dp)
                 .width(250.dp)
             ){
                 Image(
-                    painter = rememberAsyncImagePainter(model = item.url),
+                    //painter = rememberAsyncImagePainter(model = item.url),
+                    bitmap = item,
                     contentDescription = "",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier.clickable { onClick(item) }
@@ -104,7 +119,7 @@ fun AudiencePhotos(modifier: Modifier, onClick: (Any?) -> Unit){
 }
 
 @Composable
-fun FullScreenImage(feedItem: TestDataImageItem?, onDismiss: () -> Unit) {
+fun FullScreenImage(feedItem: ImageBitmap/*TestDataImageItem?*/, onDismiss: () -> Unit) {
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         Box(modifier = Modifier
             .fillMaxSize()
@@ -112,7 +127,8 @@ fun FullScreenImage(feedItem: TestDataImageItem?, onDismiss: () -> Unit) {
             .clickable { onDismiss() }
         )
         Image(
-            painter = rememberAsyncImagePainter(model = feedItem?.url),
+            //painter = rememberAsyncImagePainter(model = feedItem?.url),
+            bitmap = feedItem,
             contentDescription = "",
             contentScale = ContentScale.Crop,
             modifier = Modifier
@@ -121,6 +137,7 @@ fun FullScreenImage(feedItem: TestDataImageItem?, onDismiss: () -> Unit) {
         )
     }
 }
+
 
 @Preview(showBackground = true)
 @Composable

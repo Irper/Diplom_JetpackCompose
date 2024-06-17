@@ -13,12 +13,19 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import ru.vovan.diplomcompose.database.entity.Announcement
 import ru.vovan.diplomcompose.ui.component.NavigationBar
 import ru.vovan.diplomcompose.ui.model.CurrentAudience
 import ru.vovan.diplomcompose.ui.model.CurrentAudienceObject
 import ru.vovan.diplomcompose.ui.theme.DiplomComposeTheme
 import ru.vovan.diplomcompose.workrequest.BrowseTimetableWorker
 import java.util.concurrent.TimeUnit
+
+var listAnnouncement = listOf(  Announcement(text = "«Дарованные небесами строки. К 225-летию А.С. Пушкина»", date = "06.06.2024"),
+                                Announcement(text = "Научно-техническая библиотека приглашает посетить тематическую выставку «Сатиры острое оружие».", date = "06.06.2024"),
+                                Announcement(text = "Электронный ресурс - \"Писатели-фронтовики Хабаровского края\"", date = "23.05.2024"),
+                                Announcement(text = "У студентов, аспирантов и молодых специалистов ДВГУПС есть возможность принять участие в конкурсном отборе на стипендиальную программу Правительства Вьетнама", date = "02.05.2024")
+)
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
