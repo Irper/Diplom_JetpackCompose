@@ -56,7 +56,6 @@ fun StuffScreen(dataViewModel: DataViewModel = koinViewModel()){
     }
 
     var selectedImageItem by remember { mutableStateOf<TestDataImageItem?>(null) }
-    //var selectedImageItem by remember { mutableStateOf<ImageBitmap>(ImageBitmap.imageResource(R.drawable.desc1)) }
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -87,14 +86,6 @@ fun StuffScreen(dataViewModel: DataViewModel = koinViewModel()){
 @Composable
 fun AudiencePhotos(modifier: Modifier, onClick: (Any?) -> Unit){
     val feedItems: List<TestDataImageItem> = TestDataImage.testItemsList
-    /*val imageName = listOf(
-        ImageBitmap.imageResource(R.drawable.desc1),
-        ImageBitmap.imageResource(R.drawable.desc2),
-        ImageBitmap.imageResource(R.drawable.desc3),
-        ImageBitmap.imageResource(R.drawable.desc4),
-        ImageBitmap.imageResource(R.drawable.desc5),
-        ImageBitmap.imageResource(R.drawable.desc6),
-        )*/
 
     LazyRow (
         verticalAlignment = Alignment.CenterVertically,
@@ -109,7 +100,6 @@ fun AudiencePhotos(modifier: Modifier, onClick: (Any?) -> Unit){
                 .width(250.dp)
             ){
                 Image(
-                    //painter = rememberAsyncImagePainter(model = item.url),
                     bitmap = ImageBitmap.imageResource(id = item.url),
                     contentDescription = "",
                     contentScale = ContentScale.Crop,
@@ -130,7 +120,6 @@ fun FullScreenImage(feedItem: TestDataImageItem?, onDismiss: () -> Unit) {
         )
         if (feedItem != null) {
             Image(
-                //painter = rememberAsyncImagePainter(model = feedItem?.url),
                 bitmap = ImageBitmap.imageResource(id = feedItem.url),
                 contentDescription = "",
                 contentScale = ContentScale.Crop,
