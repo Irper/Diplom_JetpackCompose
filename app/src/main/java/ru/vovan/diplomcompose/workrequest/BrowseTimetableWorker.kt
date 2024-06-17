@@ -6,7 +6,8 @@ import androidx.work.WorkerParameters
 import ru.vovan.diplomcompose.ui.model.CurrentAudienceObject
 import ru.vovan.diplomcompose.viewmodel.DataViewModel
 
-class BrowseTimetableWorker (
+class
+BrowseTimetableWorker (
     context : Context,
     parameters: WorkerParameters,
     private val dataViewModel: DataViewModel
