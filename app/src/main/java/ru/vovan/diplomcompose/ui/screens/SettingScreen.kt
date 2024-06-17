@@ -50,7 +50,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -61,7 +60,6 @@ import ru.vovan.diplomcompose.ui.component.GradientButton
 import ru.vovan.diplomcompose.ui.component.NumberOfAudience
 import ru.vovan.diplomcompose.ui.model.CurrentAudience
 import ru.vovan.diplomcompose.ui.model.CurrentAudienceObject
-import ru.vovan.diplomcompose.ui.theme.DiplomComposeTheme
 import ru.vovan.diplomcompose.ui.theme.mainColor_dark
 import ru.vovan.diplomcompose.ui.theme.mainColor_light
 import ru.vovan.diplomcompose.viewmodel.DataViewModel
@@ -251,11 +249,4 @@ fun ButtonSetting(text : String, onClick : () -> Unit, modifier: Modifier = Modi
         textColor = Color.White,
         gradient = Brush.horizontalGradient(colors = listOf(mainColor_dark, mainColor_light))
     ) { onClick() }
-}
-@Preview(showBackground = true)
-@Composable
-fun SettingScreenPreview() {
-    DiplomComposeTheme {
-
-    }
 }

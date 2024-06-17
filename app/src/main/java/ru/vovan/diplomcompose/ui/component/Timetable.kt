@@ -1,6 +1,5 @@
 package ru.vovan.diplomcompose.ui.component
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -54,13 +53,10 @@ import ru.vovan.diplomcompose.ui.theme.text_blue
 import ru.vovan.diplomcompose.viewmodel.DataViewModel
 import java.text.DateFormat
 import java.text.SimpleDateFormat
-import java.time.LocalDateTime
-import java.time.ZonedDateTime
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
-@SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun Timetable (modifier: Modifier, dataViewModel: DataViewModel = koinViewModel()){
     val currentDate: Date = Date()

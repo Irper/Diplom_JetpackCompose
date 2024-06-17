@@ -1,7 +1,6 @@
 package ru.vovan.diplomcompose.ui.screens
 
 import android.annotation.SuppressLint
-import android.graphics.Bitmap
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -34,15 +33,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewModelScope
-import coil.compose.rememberAsyncImagePainter
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
-import ru.vovan.diplomcompose.R
 import ru.vovan.diplomcompose.ui.component.NumberOfAudience
 import ru.vovan.diplomcompose.ui.model.CurrentAudienceObject
 import ru.vovan.diplomcompose.ui.model.TestDataImage
 import ru.vovan.diplomcompose.ui.model.TestDataImageItem
-
 import ru.vovan.diplomcompose.ui.theme.DiplomComposeTheme
 import ru.vovan.diplomcompose.viewmodel.DataViewModel
 

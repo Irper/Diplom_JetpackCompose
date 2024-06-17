@@ -11,7 +11,6 @@ import ru.vovan.diplomcompose.ui.model.CurrentAudienceObject
 
 @Composable
 fun NumberOfAudience(modifier: Modifier, currentAudience: String = CurrentAudienceObject.currentAudience){
-
     Text(
         text = "Ауд. $currentAudience",
         textAlign = TextAlign.Center,

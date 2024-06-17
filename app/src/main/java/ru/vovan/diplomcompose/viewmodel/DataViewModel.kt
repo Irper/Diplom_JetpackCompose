@@ -1,9 +1,8 @@
 package ru.vovan.diplomcompose.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
 import ru.vovan.diplomcompose.database.entity.Announcement
 import ru.vovan.diplomcompose.database.entity.Audience
@@ -13,7 +12,6 @@ import ru.vovan.diplomcompose.database.repository.AudienceRepository
 import ru.vovan.diplomcompose.network.model.Post
 import ru.vovan.diplomcompose.network.repository.PostRepository
 import ru.vovan.diplomcompose.network.repository.TimetableRepository
-import ru.vovan.diplomcompose.ui.model.CurrentAudienceObject
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -25,12 +23,10 @@ class DataViewModel(
     private val audienceRepository: AudienceRepository,
     private val announcementRepository: AnnouncementRepository
 ): ViewModel() {
-    init {
-        viewModelScope.launch {
-            browserAnnouncement()
-            browserTimetable(CurrentAudienceObject.currentAudience)
-        }
-    }
+    /*init {
+        browserAnnouncement()
+        browserTimetable(CurrentAudienceObject.currentAudience)
+    }*/
     private fun getAllPosts() = postRepository.getAllPosts()
     private fun getAllTimetable(audienceNumber: String) = timetableRepository.getAllTimetable(audienceNumber)
 
@@ -41,8 +37,8 @@ class DataViewModel(
 
     // Announcement
     fun retrieveAnnouncement() = announcementRepository.readAll()
-    fun browserAnnouncement(announcementsFlow: Flow<List<Post>> = getAllPosts()) {
-        viewModelScope.launch{
+    suspend fun browserAnnouncement(announcementsFlow: Flow<List<Post>> = getAllPosts()) {
+
             announcementsFlow.collect {
                 if (it.isNotEmpty()) {
                     announcementRepository.deleteAll()
@@ -54,19 +50,22 @@ class DataViewModel(
                         announcementRepository.create(Announcement(text =  item.title, date = dateText))
                     }
                 }
-            }
         }
     }
     // Parse timetable
-    fun browserTimetable(audienceNumber: String, strFlow : Flow<String> = getAllTimetable(audienceNumber)) {
+    suspend fun browserTimetable(audienceNumber: String, strFlow : Flow<String> = getAllTimetable(audienceNumber)) {
+        Log.d("123", "browserTimetable")
+
         var strParse : String = ""
         try {
-            viewModelScope.launch {
+            //viewModelScope.launch {
                 strFlow.collect {
                     strParse = it
                 }
                 if (strParse.isNotEmpty())
                 {
+                    Log.d("123", "browserTimetable_start")
+
                     audienceRepository.deleteAllAudience()
                     audienceRepository.deleteAllLesson()
                     // Паттерны
@@ -142,7 +141,8 @@ class DataViewModel(
                     // Добавление в базу данных АУДИТОРИИ
                     audienceRepository.create(Audience(numberOfAudience = audienceNumber, description = descriptorAud))
                 }
-            }
+                Log.d("123", "browserTimetable_end")
+            //}
         } catch (e: Exception){
             e.printStackTrace()
         }
