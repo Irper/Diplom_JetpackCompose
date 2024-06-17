@@ -13,12 +13,10 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import org.koin.androidx.compose.koinViewModel
 import ru.vovan.diplomcompose.ui.component.NavigationBar
 import ru.vovan.diplomcompose.ui.model.CurrentAudience
 import ru.vovan.diplomcompose.ui.model.CurrentAudienceObject
 import ru.vovan.diplomcompose.ui.theme.DiplomComposeTheme
-import ru.vovan.diplomcompose.viewmodel.DataViewModel
 import ru.vovan.diplomcompose.workrequest.BrowseTimetableWorker
 import java.util.concurrent.TimeUnit
 
@@ -36,7 +34,7 @@ class MainActivity : ComponentActivity() {
 @OptIn(DelicateCoroutinesApi::class)
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
-fun MyApp(dataViewModel: DataViewModel = koinViewModel()){
+fun MyApp(){
     val systemUiController: SystemUiController = rememberSystemUiController()
     systemUiController.isSystemBarsVisible = false // Status & Navigation bars
 
