@@ -1,6 +1,8 @@
 package ru.vovan.diplomcompose.ui.model
 
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.ImageBitmapConfig
+import androidx.compose.ui.graphics.colorspace.ColorSpace
 import androidx.compose.ui.res.imageResource
 import ru.vovan.diplomcompose.R
 import ru.vovan.diplomcompose.ui.model.TestDataImage.imagesList
@@ -31,14 +33,12 @@ object TestDataImage {
         R.drawable.desc6,
     )
 
-    val testItemsList = imagesList.forEach {
-        /*TestDataImageItem(
-            url = it
-        )*/
+    val testItemsList = List(imagesList.size) {
+        TestDataImageItem(
+            url = imagesList[it]
+        )
     }
 }
-
-/*
 data class TestDataImageItem(
-    var url: String
-) : ImageBitmap*/
+    var url: Int
+)

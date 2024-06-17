@@ -40,6 +40,8 @@ import org.koin.androidx.compose.koinViewModel
 import ru.vovan.diplomcompose.R
 import ru.vovan.diplomcompose.ui.component.NumberOfAudience
 import ru.vovan.diplomcompose.ui.model.CurrentAudienceObject
+import ru.vovan.diplomcompose.ui.model.TestDataImage
+import ru.vovan.diplomcompose.ui.model.TestDataImageItem
 
 import ru.vovan.diplomcompose.ui.theme.DiplomComposeTheme
 import ru.vovan.diplomcompose.viewmodel.DataViewModel
@@ -53,7 +55,7 @@ fun StuffScreen(dataViewModel: DataViewModel = koinViewModel()){
         audienceDesc = dataViewModel.readByIdAudience(CurrentAudienceObject.currentAudience)?.description.toString()
     }
 
-    //var selectedImageItem by remember { mutableStateOf<TestDataImageItem?>(null) }
+    var selectedImageItem by remember { mutableStateOf<TestDataImageItem?>(null) }
     //var selectedImageItem by remember { mutableStateOf<ImageBitmap>(ImageBitmap.imageResource(R.drawable.desc1)) }
 
     Column(
@@ -71,28 +73,28 @@ fun StuffScreen(dataViewModel: DataViewModel = koinViewModel()){
         )
         AudiencePhotos(
             modifier = Modifier.padding(top = 10.dp, bottom = 20.dp)
-        ) { /*newValue -> selectedImageItem = newValue as ImageBitmap */}
+        ) { newValue -> selectedImageItem = newValue as TestDataImageItem? }
     }
-    /*if (selectedImageItem != null) {
+    if (selectedImageItem != null) {
         FullScreenImage(feedItem = selectedImageItem) {
             selectedImageItem = null
         }
-    }*/
+    }
 }
 
 
 
 @Composable
 fun AudiencePhotos(modifier: Modifier, onClick: (Any?) -> Unit){
-    //val feedItems: List<TestDataImageItem> = TestDataImage.testItemsList
-    val imageName = listOf(
+    val feedItems: List<TestDataImageItem> = TestDataImage.testItemsList
+    /*val imageName = listOf(
         ImageBitmap.imageResource(R.drawable.desc1),
         ImageBitmap.imageResource(R.drawable.desc2),
         ImageBitmap.imageResource(R.drawable.desc3),
         ImageBitmap.imageResource(R.drawable.desc4),
         ImageBitmap.imageResource(R.drawable.desc5),
         ImageBitmap.imageResource(R.drawable.desc6),
-        )
+        )*/
 
     LazyRow (
         verticalAlignment = Alignment.CenterVertically,
@@ -100,7 +102,7 @@ fun AudiencePhotos(modifier: Modifier, onClick: (Any?) -> Unit){
         modifier = modifier.fillMaxWidth(),
         contentPadding = PaddingValues(start = 30.dp, end = 30.dp)
         ) {
-        items(imageName){
+        items(feedItems){
             item ->
             Box(modifier = Modifier
                 .height(250.dp)
@@ -108,7 +110,7 @@ fun AudiencePhotos(modifier: Modifier, onClick: (Any?) -> Unit){
             ){
                 Image(
                     //painter = rememberAsyncImagePainter(model = item.url),
-                    bitmap = item,
+                    bitmap = ImageBitmap.imageResource(id = item.url),
                     contentDescription = "",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier.clickable { onClick(item) }
@@ -119,22 +121,24 @@ fun AudiencePhotos(modifier: Modifier, onClick: (Any?) -> Unit){
 }
 
 @Composable
-fun FullScreenImage(feedItem: ImageBitmap/*TestDataImageItem?*/, onDismiss: () -> Unit) {
+fun FullScreenImage(feedItem: TestDataImageItem?, onDismiss: () -> Unit) {
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         Box(modifier = Modifier
             .fillMaxSize()
             .background(Color.DarkGray.copy(alpha = 0.75f))
             .clickable { onDismiss() }
         )
-        Image(
-            //painter = rememberAsyncImagePainter(model = feedItem?.url),
-            bitmap = feedItem,
-            contentDescription = "",
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .fillMaxHeight(0.8f)
-                .fillMaxWidth(0.8f)
-        )
+        if (feedItem != null) {
+            Image(
+                //painter = rememberAsyncImagePainter(model = feedItem?.url),
+                bitmap = ImageBitmap.imageResource(id = feedItem.url),
+                contentDescription = "",
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .fillMaxHeight(0.8f)
+                    .fillMaxWidth(0.8f)
+            )
+        }
     }
 }
 
