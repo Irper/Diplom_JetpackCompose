@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
@@ -16,7 +15,6 @@ import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
 import ru.vovan.diplomcompose.ui.component.NumberOfAudience
-import ru.vovan.diplomcompose.ui.theme.DiplomComposeTheme
 
 @Composable
 fun MapScreen(){
@@ -42,13 +40,5 @@ fun MapScreen(){
             )
 
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun MapScreenPreview() {
-    DiplomComposeTheme {
-        MapScreen()
     }
 }
