@@ -1,10 +1,10 @@
 package ru.vovan.diplomcompose.ui
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
@@ -12,11 +12,18 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
+import com.google.android.gms.maps.model.LatLng
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 import ru.vovan.diplomcompose.database.entity.Announcement
+import ru.vovan.diplomcompose.database.entity.Audience
+import ru.vovan.diplomcompose.database.entity.Lesson
 import ru.vovan.diplomcompose.ui.component.NavigationBar
 import ru.vovan.diplomcompose.ui.model.CurrentAudience
 import ru.vovan.diplomcompose.ui.model.CurrentAudienceObject
+import ru.vovan.diplomcompose.ui.model.MapPoint
 import ru.vovan.diplomcompose.ui.theme.DiplomComposeTheme
 import ru.vovan.diplomcompose.viewmodel.DataViewModel
 import ru.vovan.diplomcompose.workrequest.BrowseTimetableWorker
@@ -27,7 +34,27 @@ var listAnnouncement = listOf(  Announcement(text = "«Дарованные не
                                 Announcement(text = "Электронный ресурс - \"Писатели-фронтовики Хабаровского края\"", date = "23.05.2024"),
                                 Announcement(text = "У студентов, аспирантов и молодых специалистов ДВГУПС есть возможность принять участие в конкурсном отборе на стипендиальную программу Правительства Вьетнама", date = "02.05.2024")
 )
+var listAudience = listOf(  Audience("3430", "Лабораторная компьютерная аудитория 3430 предназначена для проведения практических занятий, семинаров и самостоятельной работы студентов, связанных с использованием компьютеров. \nОна оборудована: \n* Компьютерами с необходимым программным обеспечением \n* Сенсорной доской \n"),
+                            Audience("3252", "Лекционная аудитория 3252 предназначена для проведения лекционный занятий и семинаров. \nОна оборудована: \n* Компьютером для преподавателя \n* Школьной доской \n* Проектором с экраном"),
+                            Audience("3132", "Компьютерная аудитория 3132 предназначена для проведения практических занятий, семинаров и самостоятельной работы студентов, связанных с использованием компьютеров. \nОна оборудована: \n* Компьютерами с необходимым программным обеспечением \n* Школьной доской \n* Проектором с экраном"),
 
+)
+var listMapPoint = listOf(  MapPoint("3430", LatLng(48.49434065442388, 135.06084641872027)),
+                            MapPoint("3252", LatLng(48.49369542367654, 135.06049504935913)),
+                            MapPoint("3132", LatLng(48.49338435909059, 135.06015977325265))
+)
+var listLesson = listOf(    Lesson(audienceId = "3430", numberOfLesson = 1, itemName =  "Механика", date = "21.06.2024", group =  "Группа БО941САП", itemType =  "Лекция", lecturer =  "Кузнецов И.В."),
+                            Lesson(audienceId = "3430", numberOfLesson = 2, itemName =  "Механика", date = "21.06.2024", group =  "Группа БО941САП", itemType =  "Лекция", lecturer =  "Кузнецов И.В."),
+                            Lesson(audienceId = "3430", numberOfLesson = 3, itemName =  "Механика", date = "21.06.2024", group =  "Группа БО941САП", itemType =  "Лекция", lecturer =  "Кузнецов И.В."),
+                            Lesson(audienceId = "3430", numberOfLesson = 4, itemName =  "Механика", date = "21.06.2024", group =  "Группа БО941САП", itemType =  "Лекция", lecturer =  "Кузнецов И.В."),
+                            Lesson(audienceId = "3430", numberOfLesson = 5, itemName =  "Механика", date = "21.06.2024", group =  "Группа БО941САП", itemType =  "Лекция", lecturer =  "Кузнецов И.В."),
+                            Lesson(audienceId = "3430", numberOfLesson = 6, itemName =  "Механика", date = "21.06.2024", group =  "Группа БО941САП", itemType =  "Лекция", lecturer =  "Кузнецов И.В."),
+
+                            Lesson(audienceId = "3252", numberOfLesson = 1, itemName =  "Механика", date = "21.06.2024", group =  "Группа БО941САП", itemType =  "Лекция", lecturer =  "Кузнецов И.В."),
+                            Lesson(audienceId = "3252", numberOfLesson = 4, itemName =  "Механика", date = "21.06.2024", group =  "Группа БО941САП", itemType =  "Лекция", lecturer =  "Кузнецов И.В."),
+                            Lesson(audienceId = "3252", numberOfLesson = 5, itemName =  "Механика", date = "21.06.2024", group =  "Группа БО941САП", itemType =  "Лекция", lecturer =  "Кузнецов И.В."),
+                            Lesson(audienceId = "3252", numberOfLesson = 6, itemName =  "Механика", date = "21.06.2024", group =  "Группа БО941САП", itemType =  "Лекция", lecturer =  "Кузнецов И.В."),
+)
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -50,13 +77,13 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@OptIn(DelicateCoroutinesApi::class)
+@SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun MyApp(dataViewModel: DataViewModel = koinViewModel()){
-    /*val systemUiController: SystemUiController = rememberSystemUiController()
-    systemUiController.isSystemBarsVisible = false // Status & Navigation bars*/
 
     val dataStore =  CurrentAudience(context = LocalContext.current)
-    LaunchedEffect("launch") {
+    GlobalScope.launch {
         dataStore.getAudienceNumber.collect{
             if (it != null) {
                 CurrentAudienceObject.currentAudience = it

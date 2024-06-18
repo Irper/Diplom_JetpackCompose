@@ -18,7 +18,7 @@ class CurrentAudience(private val context: Context) {
     }
 
     val getAudienceNumber: Flow<String?> = context.dataStore.data.map {preferences ->
-        preferences[AUDIENCE_NUMBER] ?: "101"
+        preferences[AUDIENCE_NUMBER] ?: "3430"
     }
 
     suspend fun saveAudienceNumber(name : String){

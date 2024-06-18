@@ -1,6 +1,5 @@
 package ru.vovan.diplomcompose.ui.screens
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -32,23 +31,24 @@ import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 import ru.vovan.diplomcompose.ui.component.NumberOfAudience
+import ru.vovan.diplomcompose.ui.listAudience
 import ru.vovan.diplomcompose.ui.model.CurrentAudienceObject
 import ru.vovan.diplomcompose.ui.model.TestDataImage
 import ru.vovan.diplomcompose.ui.model.TestDataImageItem
 import ru.vovan.diplomcompose.ui.theme.DiplomComposeTheme
 import ru.vovan.diplomcompose.viewmodel.DataViewModel
 
-@SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun StuffScreen(dataViewModel: DataViewModel = koinViewModel()){
     var audienceDesc by rememberSaveable { mutableStateOf("") }
 
-    dataViewModel.viewModelScope.launch {
+    /*dataViewModel.viewModelScope.launch {
         audienceDesc = dataViewModel.readByIdAudience(CurrentAudienceObject.currentAudience)?.description.toString()
+    }*/
+    listAudience.forEach {
+        if (CurrentAudienceObject.currentAudience == it.numberOfAudience) audienceDesc = it.description
     }
 
     var selectedImageItem by remember { mutableStateOf<TestDataImageItem?>(null) }
@@ -83,13 +83,18 @@ fun StuffScreen(dataViewModel: DataViewModel = koinViewModel()){
 fun AudiencePhotos(modifier: Modifier, onClick: (Any?) -> Unit){
     val feedItems: List<TestDataImageItem> = TestDataImage.testItemsList
 
+    var fd : ArrayList<TestDataImageItem> = arrayListOf()
+    feedItems.forEach {
+        if (it.audNum == CurrentAudienceObject.currentAudience) fd.add(it)
+    }
+
     LazyRow (
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(12.dp),
         modifier = modifier.fillMaxWidth(),
         contentPadding = PaddingValues(start = 30.dp, end = 30.dp)
         ) {
-        items(feedItems){
+        items(fd){
             item ->
             Box(modifier = Modifier
                 .height(250.dp)

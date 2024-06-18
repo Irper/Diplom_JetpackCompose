@@ -20,7 +20,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableIntStateOf
@@ -44,6 +43,8 @@ import kotlinx.coroutines.delay
 import org.koin.androidx.compose.koinViewModel
 import ru.vovan.diplomcompose.R
 import ru.vovan.diplomcompose.database.entity.Lesson
+import ru.vovan.diplomcompose.ui.listLesson
+import ru.vovan.diplomcompose.ui.model.CurrentAudienceObject
 import ru.vovan.diplomcompose.ui.theme.DiplomComposeTheme
 import ru.vovan.diplomcompose.ui.theme.alternative_dark
 import ru.vovan.diplomcompose.ui.theme.alternative_light
@@ -63,7 +64,13 @@ fun Timetable (modifier: Modifier, dataViewModel: DataViewModel = koinViewModel(
     val dateFormat: DateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
     val dateText: String = dateFormat.format(currentDate)
 
-    val listLesson by dataViewModel.readLessonByDate(dateText).collectAsState(initial = emptyList())
+    //val listLesson by dataViewModel.readLessonByDate(dateText).collectAsState(initial = emptyList())
+    var listTemp : ArrayList<Lesson> = arrayListOf()
+    listLesson.forEach {
+        if (it.audienceId == CurrentAudienceObject.currentAudience) listTemp.add(it)
+
+    }
+    val listLesson : List<Lesson> = listTemp
 
     Surface(
         modifier = modifier

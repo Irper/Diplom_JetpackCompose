@@ -5,6 +5,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -15,10 +19,17 @@ import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
 import ru.vovan.diplomcompose.ui.component.NumberOfAudience
+import ru.vovan.diplomcompose.ui.listMapPoint
+import ru.vovan.diplomcompose.ui.model.CurrentAudienceObject
 
 @Composable
 fun MapScreen(){
-    val dvgupsLocation = LatLng(48.49394759217753, 135.06185639926318)
+    var dvgupsLocation by rememberSaveable { mutableStateOf(LatLng(0.0, 0.0)) }
+    //var dvgupsLocation = LatLng(0.0, 0.0)
+
+    listMapPoint.forEach {
+        if (it.audName == CurrentAudienceObject.currentAudience) dvgupsLocation = it.point
+    }
     val cameraPositionState = rememberCameraPositionState {
         position = CameraPosition.fromLatLngZoom(dvgupsLocation, 18f)
     }
@@ -34,9 +45,9 @@ fun MapScreen(){
             cameraPositionState = cameraPositionState
         ) {
             Marker(
-                state = MarkerState(position = LatLng(48.49423554597536, 135.06082643106407)),
+                state = MarkerState(position = dvgupsLocation),
                 title = "ДВГУПС",
-                snippet = "Аудитория 3430"
+                snippet = "Аудитория " + CurrentAudienceObject.currentAudience
             )
 
         }
