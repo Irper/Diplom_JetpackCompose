@@ -6,10 +6,12 @@ import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
-import com.google.accompanist.systemuicontroller.SystemUiController
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import org.koin.androidx.compose.koinViewModel
 import ru.vovan.diplomcompose.database.entity.Announcement
 import ru.vovan.diplomcompose.ui.component.NavigationBar
@@ -28,6 +30,17 @@ var listAnnouncement = listOf(  Announcement(text = "«Дарованные не
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        val windowInsetsController = WindowCompat.getInsetsController(window, window.decorView)
+        windowInsetsController.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        ViewCompat.setOnApplyWindowInsetsListener(window.decorView) { view, windowInsets ->
+            if (windowInsets.isVisible(WindowInsetsCompat.Type.navigationBars())
+                || windowInsets.isVisible(WindowInsetsCompat.Type.statusBars())) {
+                 windowInsetsController.hide(WindowInsetsCompat.Type.systemBars())
+            }
+            ViewCompat.onApplyWindowInsets(view, windowInsets)
+        }
+
         super.onCreate(savedInstanceState)
         setContent {
             DiplomComposeTheme {
@@ -39,9 +52,8 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MyApp(dataViewModel: DataViewModel = koinViewModel()){
-
-    val systemUiController: SystemUiController = rememberSystemUiController()
-    systemUiController.isSystemBarsVisible = false // Status & Navigation bars
+    /*val systemUiController: SystemUiController = rememberSystemUiController()
+    systemUiController.isSystemBarsVisible = false // Status & Navigation bars*/
 
     val dataStore =  CurrentAudience(context = LocalContext.current)
     LaunchedEffect("launch") {

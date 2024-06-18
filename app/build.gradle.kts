@@ -65,7 +65,10 @@ dependencies {
     implementation ("androidx.datastore:datastore-preferences:1.1.1")
     //WorkManager
     implementation ("androidx.work:work-runtime-ktx:2.9.0")
-
+    // Android Maps Compose composables for the Maps SDK for Android
+    implementation ("com.google.maps.android:maps-compose:4.4.1")
+    // https://mvnrepository.com/artifact/com.google.android.gms/play-services-gcm
+    implementation("com.google.android.gms:play-services-maps:18.2.0")
 
     implementation("androidx.navigation:navigation-compose:2.7.7")
     implementation("androidx.compose.material:material:1.6.8")
